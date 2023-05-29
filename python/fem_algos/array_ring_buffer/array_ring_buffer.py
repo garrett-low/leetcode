@@ -1,6 +1,7 @@
 # ring buffer without resizing
 # aka circular buffer aka circular queue aka cyclic buffer aka ring buffer
-# start inclusive, end exclusive - head is an element
+# start inclusive, end exclusive - self.head is the index containing an element
+# double-ended queue operations
 
 class RingBuffer:
     def __init__(self, capacity):
