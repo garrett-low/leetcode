@@ -12,7 +12,9 @@ class Point: # 0-indexed row, col
     def __eq__(self, other):
         return self.row == other.row and self.col == other.col
     def __hash__(self):
-        return hash(self.row**2 + self.col**2)
+        # https://stackoverflow.com/a/682617/21593883
+        return hash(((self.row + self.col) * (self.row + self.col + 1)/2) + self.col)
+            #(self.row**2 + self.col**2) 
 
 def solve(maze, wall, start, end):
     visited: Set[Point] = set()
@@ -77,6 +79,16 @@ def main():
     end2 = Point(0, 5)
     path2 = solve(maze2, wall, start2, end2)
     print([str(item) for item in path2])
+    
+    maze_out_of_bounds = ["# ### #",
+                          "#     #",
+                          "  #####",
+                          "#     #",
+                          "##### #"]
+    start3 = Point(4, 5) # 0-indexed row, col
+    end3 = Point(0, 5)
+    path3 = solve(maze_out_of_bounds, wall, start3, end3)
+    print([str(item) for item in path3])
     
 if __name__ == "__main__":
     main()
