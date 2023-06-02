@@ -1,1 +1,3 @@
-JOBJOBJOBJOBJOBJOBJOBJOBJOBJOBJOBJOBJOBJOBJOBJOBJOB
+- Practice Python by implementing ADTs, basic algorithms
+- Practice problems
+- ???
