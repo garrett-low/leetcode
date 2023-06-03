@@ -1,6 +1,6 @@
 def twosum(array, target):
     comp_set = set()
-    for i in range(len(array) - 1):
+    for i in range(len(array)):
         val = array[i]
         complement = target - array[i]
         if complement in comp_set:
