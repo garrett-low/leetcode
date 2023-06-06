@@ -5,7 +5,6 @@ def supply():
     line_count_to_moves = 0
     initial_state = []
 #     list_of_stacks = []
-    num_stacks = 0
     
     with open('input.txt', 'rt', encoding='utf-8') as file:
         for line in file:
