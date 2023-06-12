@@ -18,7 +18,10 @@ class Point:
     def __hash__(self):
         # https://stackoverflow.com/a/682617/21593883
         return hash(((self.row + self.col) * (self.row + self.col + 1)/2) + self.col)
-            #(self.row**2 + self.col**2) 
+            #(self.row**2 + self.col**2)
+    
+def count_visible_trees_2():
+    pass
 
 def count_visible_trees():
     forest_grid = []
@@ -61,8 +64,8 @@ def count_visible_trees():
     
 #     is_visible(2, 36, forest_grid)
     
-#     print(f"{len(visible_tree_set) + grid_height + grid_width - 4}")
-    print(f"{visible_tree_count}")
+    print(f"{len(visible_tree_set) + (2 * grid_height) + (2 * grid_width) - 4}")
+#     print(f"{visible_tree_count}")
 
 def is_visible(row, col, forest_grid):
     height = forest_grid[row][col]
@@ -148,4 +151,4 @@ def recurse_left(row, col, my_height, forest_grid):
 #     for row in forest_grid:
 #         print(row)
         
-count_visible_trees()
+# count_visible_trees()
