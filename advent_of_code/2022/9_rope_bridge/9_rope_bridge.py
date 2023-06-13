@@ -90,5 +90,29 @@ def move_tail(h, t):
     t.visited_set.add(Point(t.pt.x, t.pt.y))
     t.visited_list.append(Point(t.pt.x, t.pt.y))
 
+############
+# PART TWO #
+############
+def count_tail_visited_part_two(filename):
+    h = Head()
+    t = Tail()
+    t.visited_set.add(t.pt) # add 0,0
+    t.visited_list.append(t.pt)
+    with open(filename, 'rt', encoding='utf-8') as file:
+        for line in file:
+            move = line.split(' ')
+            move_dir = move[0]
+            move_steps = int(move[1])
+            for _ in range(0, move_steps):
+                move_head(move_dir, h)                
+                move_tail_part_two(h, t)
+    
+    print(len(t.visited_list))
+    print(len(t.visited_set))
+    return
+
+def move_tail_part_two(h, t):
+    pass
+
 count_tail_visited("input_sample.txt")
 count_tail_visited("input.txt")
