@@ -93,6 +93,15 @@ def move_tail(h, t):
 ############
 # PART TWO #
 ############
+class RopeArray:
+    def __init__(self, length):
+        self.length = length
+        self.arr = [Point(0,0)] * length
+        self.head = self.arr[0]
+        self.tail = self.arr[length - 1]
+    def __str__(self):
+        return
+
 def count_tail_visited_part_two(filename):
     h = Head()
     t = Tail()
