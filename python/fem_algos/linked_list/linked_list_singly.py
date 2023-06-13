@@ -70,6 +70,20 @@ class LinkedList:
         
         return "get_val: Not found"
     
+    def get_at(self, index):
+        i = 0
+        curr = self.head
+        
+        while i < index and curr != None:
+            curr = curr.next_node
+            i += 1
+        
+        if curr == None:
+            print("Error: index DNE!")
+            return None
+            
+        return curr.val
+    
     def remove_val(self, val):
         if self.head == None:
             return "remove_val: Empty list"
@@ -128,7 +142,7 @@ class LinkedList:
             if self.head == None:
                 self.tail = new_node
             else:
-                new_node.next = self.head
+                new_node.next_node = self.head
             
             self.head = new_node
             return f"insert_at: Inserted {val} at Head"
@@ -204,6 +218,11 @@ def main():
     print(ll)
     print(ll.insert_at(421,3))
     print(ll)
+    print(ll.get_at(0))
+    print(ll.get_at(1))
+    print(ll.get_at(2))
+    print(ll.get_at(3))
+    print(ll.get_at(4))
 
 if __name__ == "__main__":
     main()
