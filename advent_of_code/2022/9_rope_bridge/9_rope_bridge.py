@@ -1,8 +1,6 @@
 #4532 - bad hash function
 #6347 - better hash function, still too low
-
-# import hashlib
-# import collections
+#maybe don't add the same point to the set over and over again
 
 class Point:
     def __init__(self, x, y):
@@ -24,7 +22,6 @@ class Tail:
         self.pt = Point(0, 0)
         self.visited_set = set()
         self.visited_list = []
-#         self.visited_list = LinkedList()
 
 def count_tail_visited(filename):
     h = Head()
@@ -90,7 +87,6 @@ def move_tail(h, t):
     elif t.pt.x - 1 == h.pt.x and t.pt.y + 2 == h.pt.y: # 11 o'clock
         t.pt.x -= 1
         t.pt.y += 1
-#     print(t.pt)
     t.visited_set.add(Point(t.pt.x, t.pt.y))
     t.visited_list.append(Point(t.pt.x, t.pt.y))
 
