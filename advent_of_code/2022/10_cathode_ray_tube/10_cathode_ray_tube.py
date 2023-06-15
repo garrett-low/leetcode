@@ -42,16 +42,13 @@ def crt(filename):
             split = line.split(' ')
             op = split[0]
 #             print(f"{cycle}: {line} ({register}): ", end='') #debug
+            # noop cycle or middle cycle of an addx operation
+            print_crt(register, cycle)
+            cycle += 1
             if op == 'addx':
                 print_crt(register, cycle)
                 cycle += 1
-                # noop / in between an addx cycle
-                print_crt(register, cycle)
-                cycle += 1
                 register += int(split[1])
-            else:
-                print_crt(register, cycle)
-                cycle += 1
 #             print() #debug
 
 def print_crt(register, cycle):
