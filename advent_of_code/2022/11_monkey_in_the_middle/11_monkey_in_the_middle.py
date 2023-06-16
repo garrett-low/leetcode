@@ -1,3 +1,6 @@
+# I didn't reset inspect_count between my testing, so the final result was wrong.
+# I was reusing the same monkeys across my tests...........................
+
 import inspect
 
 class Monkey:
