@@ -22,7 +22,7 @@ class BST:
         self.addInner(new_node, self.root)
         
     def addInner(self, new_node, curr_node):
-        if new_node.val < curr_node.val:
+        if new_node.val <= curr_node.val:
             if curr_node.left == None:
                 curr_node.left = new_node
             else:

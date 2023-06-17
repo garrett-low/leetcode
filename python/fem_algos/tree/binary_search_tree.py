@@ -88,7 +88,7 @@ class BinaryTree:
         self.addInner(self.head, new_node)
         
     def addInner(self, curr, new_node):
-        if curr.val < new_node.val:
+        if curr.val <= new_node.val:
             if curr.left == None:
                 curr.left = new_node
             else:
