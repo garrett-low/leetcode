@@ -1,3 +1,5 @@
+from collections import deque
+
 class Node:
     def __init__(self, val):
         self.val = val
@@ -9,6 +11,7 @@ class Node:
 class BST:
     def __init__(self):
         self.root = None
+    
     def add(self, val):
         new_node = Node(val)
         
@@ -78,6 +81,66 @@ class BST:
         if curr.right != None:
             print()
             self.pp(curr.right, indent + 1)
+    
+    def preTraversal(self, curr, printlist):
+        if curr == None:
+            return
+        printlist.append(curr.val)
+        if curr.left != None:
+            self.preTraversal(curr.left, printlist)
+        if curr.right != None:
+            self.preTraversal(curr.right, printlist)
+        
+    def inOrderTraversal(self, curr, printlist):
+        if curr == None:
+            return
+        if curr.left != None:
+            self.inOrderTraversal(curr.left, printlist)
+        printlist.append(curr.val)
+        if curr.right != None:
+            self.inOrderTraversal(curr.right, printlist)
+    
+    def postOrderTraversal(self, curr, printlist):
+        if curr == None:
+            return
+        if curr.left != None:
+            self.postOrderTraversal(curr.left, printlist)
+        if curr.right != None:
+            self.postOrderTraversal(curr.right, printlist)
+        printlist.append(curr.val)
+    
+    # Print in tree-level/BFS order
+    def bst_print(self):
+        print("BST tree-level/BFS order: ", end='')
+        if self.root == None:
+            print("Empty!", end='')
+        
+        queue = deque([self.root])
+        while len(queue) != 0:
+            next_node = queue.popleft()
+            print(next_node, end='')
+            if next_node.left != None:
+                queue.append(next_node.left)
+            if next_node.right != None:
+                queue.append(next_node.right)
+        print()
+    
+    def bfs(self, val):
+        queue = deque([self.root])
+        
+        while len(queue) != 0:
+            next_node = queue.popleft()
+            
+            if next_node == None:
+                continue
+            if next_node.val == val:
+                return True
+            if next_node.left != None:
+                queue.append(next_node.left)
+            if next_node.right != None:
+                queue.append(next_node.right)
+        return False
+    
 def main():
     tree1 = BST()
     tree1.add(69)
@@ -101,6 +164,9 @@ def main():
     tree1.prettyPrint()
     tree1.remove(32)
     tree1.prettyPrint()
+    tree1.bst_print()
+    print(tree1.bfs(35))
+    print(tree1.bfs(2))
     
 if __name__ == "__main__":
     main()
