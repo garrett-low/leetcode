@@ -30,7 +30,7 @@ class MinHeap:
         if idx <= 0:
             return
         
-        parent_idx = (idx - 1) // 2
+        parent_idx = MinHeap.get_parent_idx(idx)
         if self.arr[parent_idx] <= self.arr[idx]:
             return
         # swap and bubble_up
@@ -56,17 +56,17 @@ class MinHeap:
 #         if idx >= self.length - 1:
 #             return
         # find min child and swap if lower
-        if (2 * idx) + 1 >= self.length - 1:
+        if MinHeap.get_left_idx(idx) >= self.length - 1:
             return
-        if (2 * idx) + 2 >= self.length - 1:
+        if MinHeap.get_right_idx(idx) >= self.length - 1:
             min_idx = (2 * idx) + 1
         else:
-            left = self.arr[(2 * idx) + 1]
-            right = self.arr[(2 * idx) + 2]
+            left = self.arr[MinHeap.get_left_idx(idx)]
+            right = self.arr[MinHeap.get_right_idx(idx)]
             if left < right:
-                min_idx = (2 * idx) + 1
+                min_idx = MinHeap.get_left_idx(idx)
             else:
-                min_idx = (2 * idx) + 2
+                min_idx = MinHeap.get_right_idx(idx)
         
         if self.arr[min_idx] >= self.arr[idx]:
             return
@@ -75,6 +75,19 @@ class MinHeap:
         self.arr[idx] = self.arr[min_idx]
         self.arr[min_idx] = temp
         self.bubble_down(min_idx)
+    
+    # more helpers
+    @staticmethod
+    def get_parent_idx(idx):
+        return (idx - 1) // 2
+    
+    @staticmethod
+    def get_left_idx(idx):
+        return (2 * idx) + 1
+    
+    @staticmethod
+    def get_right_idx(idx):
+        return (2 * idx) + 2
 
 def main():
     heap = MinHeap()
