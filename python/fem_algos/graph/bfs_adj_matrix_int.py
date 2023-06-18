@@ -1,9 +1,9 @@
-from adj_matrix_int import matrix
+from adj_matrix_int import matrix as matrix
 from collections import deque
 
 # dfs on integer adjacency matrix
 # returns path from 0 node to val
-def dfs(matrix, val):
+def bfs(matrix, val):
     length = len(matrix.matrix[0])
     
     prev = [-1] * length
