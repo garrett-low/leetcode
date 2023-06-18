@@ -1,0 +1,94 @@
+class MinHeap:
+    def __init__(self):
+        self.arr = []
+        self.length = 0
+        # TODO: implement declaring heap with given list (heapify)
+    
+    def __str__(self):
+        retval = ""
+        for item in self.arr:
+            retval += f"[{item}]"
+        return retval
+    
+    def isEmpty(self):
+        return self.length == 0
+    
+    # return min value at root
+    def peek(self):
+        if self.isEmpty():
+            return None
+        return self.arr[0]
+    
+    # add val, maintaining heap rule
+    def add(self, val):
+        self.arr.append(val)
+        self.length += 1
+        self.bubble_up(self.length - 1)
+    
+    # inner recursive helper for add
+    def bubble_up(self, idx):
+        if idx <= 0:
+            return
+        
+        parent_idx = (idx - 1) // 2
+        if self.arr[parent_idx] <= self.arr[idx]:
+            return
+        # swap and bubble_up
+        temp = self.arr[idx]
+        self.arr[idx] = self.arr[parent_idx]
+        self.arr[parent_idx] = temp
+        self.bubble_up(parent_idx)
+    
+    # remove and return min value (root), maintain heap rule
+    def remove(self):
+        if self.isEmpty():
+            return None
+        root_val = self.arr[0]
+         
+        self.arr[0] = self.arr.pop()
+        self.length -= 1
+        self.bubble_down(0)
+        
+        return root_val
+    
+    # inner recursive helper for remove
+    def bubble_down(self, idx):
+#         if idx >= self.length - 1:
+#             return
+        # find min child and swap if lower
+        if (2 * idx) + 1 >= self.length - 1:
+            return
+        if (2 * idx) + 2 >= self.length - 1:
+            min_idx = (2 * idx) + 1
+        else:
+            left = self.arr[(2 * idx) + 1]
+            right = self.arr[(2 * idx) + 2]
+            if left < right:
+                min_idx = (2 * idx) + 1
+            else:
+                min_idx = (2 * idx) + 2
+        
+        if self.arr[min_idx] >= self.arr[idx]:
+            return
+        # swap and bubble_down
+        temp = self.arr[idx]
+        self.arr[idx] = self.arr[min_idx]
+        self.arr[min_idx] = temp
+        self.bubble_down(min_idx)
+
+def main():
+    heap = MinHeap()
+    heap.add(50)
+    heap.add(100)
+    heap.add(25)
+    heap.add(125)
+    heap.add(150)
+    print(heap.peek())
+    heap.add(1)
+    print(heap.peek())
+    print("remove: " + str(heap.remove()))
+    print(heap.peek())
+    print(heap)
+    
+if __name__ == "__main__":
+    main()
