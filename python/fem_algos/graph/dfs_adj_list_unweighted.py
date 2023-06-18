@@ -1,5 +1,6 @@
 from adj_list_unweighted import adj_list
 
+# time complexity: O(V + E) - check every vertex and edge in worst case
 # return the DFS path to the node
 # else return empty list
 def dfs(graph, val):
