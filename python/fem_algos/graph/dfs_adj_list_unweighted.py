@@ -12,24 +12,15 @@ def dfs(graph, val):
     return []
 
 def dfs_inner(graph, curr, val, path, seen):
-    if curr == None:
-        return False
-    
     if curr == val:
         return True
-    
     if curr in seen:
         return False
     
-    # recurse
-    # pre
     seen.add(curr)
     
-    # recurse
-#     print(f"at {curr}: {graph.adj_list[curr]}")
     for neighbor in graph.adj_list[curr]:
         path.append(neighbor)
-#         print(f"add neighbor: {neighbor}")
         if dfs_inner(graph, neighbor, val, path, seen):
             return True
         path.pop()
