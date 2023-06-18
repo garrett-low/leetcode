@@ -14,12 +14,14 @@ class MinHeap:
         return self.length == 0
     
     # return min value at root
+    # O(1)
     def peek(self):
         if self.isEmpty():
             return None
         return self.arr[0]
     
     # add val, maintaining heap rule
+    # O(log n)
     def add(self, val):
         self.arr.append(val)
         self.length += 1
@@ -40,25 +42,29 @@ class MinHeap:
         self.bubble_up(parent_idx)
     
     # remove and return min value (root), maintain heap rule
+    # O(log n)
     def remove(self):
         if self.isEmpty():
             return None
         root_val = self.arr[0]
-         
-        self.arr[0] = self.arr.pop()
+        
         self.length -= 1
+        
+        if self.length == 0:
+            self.arr.pop()
+            return root_val
+        
+        self.arr[0] = self.arr.pop()
         self.bubble_down(0)
         
         return root_val
     
     # inner recursive helper for remove
     def bubble_down(self, idx):
-#         if idx >= self.length - 1:
-#             return
-        # find min child and swap if lower
-        if MinHeap.get_left_idx(idx) >= self.length - 1:
+        if MinHeap.get_left_idx(idx) >= self.length: # already decremented length
             return
-        if MinHeap.get_right_idx(idx) >= self.length - 1:
+        # find min child and swap if lower
+        if MinHeap.get_right_idx(idx) >= self.length: # already decremented length
             min_idx = (2 * idx) + 1
         else:
             left = self.arr[MinHeap.get_left_idx(idx)]
@@ -99,6 +105,24 @@ def main():
     print(heap.peek())
     heap.add(1)
     print(heap.peek())
+    print("remove: " + str(heap.remove()))
+    print(heap.peek())
+    print(heap)
+    print("remove: " + str(heap.remove()))
+    print(heap.peek())
+    print(heap)
+    print("remove: " + str(heap.remove()))
+    print(heap.peek())
+    print(heap)
+    print("remove: " + str(heap.remove()))
+    print(heap.peek())
+    print(heap)
+    print("remove: " + str(heap.remove()))
+    print(heap.peek())
+    print(heap)
+    print("remove: " + str(heap.remove()))
+    print(heap.peek())
+    print(heap)
     print("remove: " + str(heap.remove()))
     print(heap.peek())
     print(heap)
