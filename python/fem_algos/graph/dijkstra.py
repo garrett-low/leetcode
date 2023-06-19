@@ -37,6 +37,7 @@ def dijkstra(adj_list):
     return dist_dict, prev_dict
 
 def main():
+    # example from https://www.youtube.com/watch?v=_lHSawdgXpI
     graph = adj_list('input_list_weighted.txt')
 #     print(graph)
     print(dijkstra(graph))
