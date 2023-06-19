@@ -37,11 +37,11 @@ def hill_climbing(filename):
             heightmap.append(line)
             row_num +=1
             
-    print("debug input heightmap:")
-    for row in heightmap:
-        print(row)
-    print(ord('a'))
-    print(ord('z'))
+#     print("debug input heightmap:")
+#     for row in heightmap:
+#         print(row)
+#     print(ord('a'))
+#     print(ord('z'))
     
     height = len(heightmap)
     width = len(heightmap[0])
@@ -74,7 +74,7 @@ def hill_climbing(filename):
     while len(unvisited_heap) > 0:
         curr_point = unvisited_heap.remove()
         curr_height = get_height(heightmap, curr_point.row, curr_point.col)
-        print(f"debug - visiting: {curr_point}, height: {curr_height}")
+#         print(f"debug - visiting: {curr_point}, height: {curr_height}")
         
         # check four directions
         for dir_tuple in dirs:
@@ -88,10 +88,10 @@ def hill_climbing(filename):
             neighbor_height = get_height(heightmap,
                                          neighbor_row,
                                          neighbor_col)
-            print(f" * debug - check neighbor: [{neighbor_row}, {neighbor_col}], height: {neighbor_height}")
+#             print(f" * debug - check neighbor: [{neighbor_row}, {neighbor_col}], height: {neighbor_height}")
             # valid neighbor - down any height and up one height greater
             if neighbor_height <= curr_height + 1:
-                print(" * debug - valid neighbor")
+#                 print(" * debug - valid neighbor")
                 neighbor_point = point(neighbor_row,
                                        neighbor_col)
                 test_dist = dist_dict[curr_point] + 1
@@ -99,7 +99,7 @@ def hill_climbing(filename):
                     dist_dict[neighbor_point] = test_dist
                     prev_dict[neighbor_point] = curr_point
                     unvisited_heap.update(neighbor_point, test_dist)
-                    print(f"    * debug - update shortest path to {neighbor_point}: {test_dist}")
+#                     print(f"    * debug - update shortest path to {neighbor_point}: {test_dist}")
     
     # output
     path = deque([start])
@@ -110,9 +110,9 @@ def hill_climbing(filename):
         curr_parent = prev_dict[curr_parent]
         num_moves += 1
     
-    print("debug - output:")
-    for curr in path:
-        print(curr, end=', ')
+#     print("debug - output:")
+#     for curr in path:
+#         print(curr, end=', ')
     print()
     print(num_moves)
     return
@@ -136,4 +136,5 @@ def directions():
         print(row, col)
 
 hill_climbing('sample.txt')
+hill_climbing('input.txt')
 # directions()
