@@ -1,19 +1,19 @@
-import math
+import sys
 from adj_list_weighted import adj_list
 from min_heap_node import min_heap
 
 # dijkstra's with adjacency list
 # wikipedia pseudocode
-def dijkstra(adj_list):
+def dijkstra(graph):
     unvisited_min_heap = min_heap()
     dist_dict = dict()
     prev_dict = dict()
     
     dist_dict['A'] = 0 # starting node as A
     
-    for vertex in adj_list.adj_list.keys():
+    for vertex in graph.adj_list.keys():
         if vertex != 'A':
-            dist_dict[vertex] = math.inf
+            dist_dict[vertex] = sys.maxsize
             prev_dict[vertex] = None
         unvisited_min_heap.add(vertex, dist_dict[vertex])
     print(f"starting distances: {dist_dict}")
@@ -23,7 +23,7 @@ def dijkstra(adj_list):
     while len(unvisited_min_heap) > 0:
         curr_element = unvisited_min_heap.remove()
         
-        edge_list = adj_list.adj_list[curr_element]
+        edge_list = graph.adj_list[curr_element]
         print(f"visit: {curr_element}")
         for edge in edge_list:
             test_dist = dist_dict[curr_element] + edge.weight
