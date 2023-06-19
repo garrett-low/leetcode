@@ -31,8 +31,8 @@ def dijkstra(adj_list):
             if test_dist < dist_dict[edge.to]:
                 dist_dict[edge.to] = test_dist
                 prev_dict[edge.to] = curr_element
-                print(f"update shortest path --> {edge.to}: {test_dist}")
-                unvisited_min_heap.update(curr_element, test_dist)
+                print(f" * update shortest path --> {edge.to}: {test_dist}")
+                unvisited_min_heap.update(edge.to, test_dist)
     
     return dist_dict, prev_dict
 

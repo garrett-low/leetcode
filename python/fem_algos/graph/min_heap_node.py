@@ -95,15 +95,23 @@ class min_heap:
     
     def update(self, element_to_update, new_prio):
         new_node = node(element_to_update, new_prio)
+        found_idx = -1
         for idx in range(len(self.arr)):
             if self.arr[idx].element == element_to_update:
-                old_prio = self.arr[idx].prio
-                self.arr[idx] = new_node
-                if new_prio < old_prio:
-                    self.bubble_up(idx)
-                else:
-                    self.bubble_down(idx)
+                found_idx = idx
                 break
+            
+        if found_idx == -1:
+            print("Element does not exist!")
+            return
+        
+        old_prio = self.arr[idx].prio
+        self.arr[idx] = new_node
+        if new_prio < old_prio:
+            self.bubble_up(idx)
+        else:
+            self.bubble_down(idx)
+
     
     # more helpers
     @staticmethod
