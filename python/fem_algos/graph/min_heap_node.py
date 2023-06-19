@@ -1,3 +1,10 @@
+class node:
+    def __init__(self, element, prio):
+        self.element = element
+        self.prio = prio
+    def __str__(self):
+        return f"[{self.element}: {self.prio}]"
+
 class min_heap:
     def __init__(self):
         self.arr = []
@@ -7,8 +14,11 @@ class min_heap:
     def __str__(self):
         retval = ""
         for item in self.arr:
-            retval += f"[{item}]"
+            retval += f"[{item.element}: {item.prio}]"
         return retval
+    
+    def __len__(self):
+        return self.length
     
     def isEmpty(self):
         return self.length == 0
@@ -22,8 +32,9 @@ class min_heap:
     
     # add val, maintaining heap rule
     # O(log n)
-    def add(self, val):
-        self.arr.append(val)
+    def add(self, element, prio):
+        new_node = node(element, prio)
+        self.arr.append(new_node)
         self.length += 1
         self.bubble_up(self.length - 1)
     
@@ -33,7 +44,7 @@ class min_heap:
             return
         
         parent_idx = min_heap.get_parent_idx(idx)
-        if self.arr[parent_idx] <= self.arr[idx]:
+        if self.arr[parent_idx].prio <= self.arr[idx].prio:
             return
         # swap and bubble_up
         temp = self.arr[idx]
@@ -52,12 +63,12 @@ class min_heap:
         
         if self.length == 0:
             self.arr.pop()
-            return root_val
+            return root_val.element
         
         self.arr[0] = self.arr.pop()
         self.bubble_down(0)
         
-        return root_val
+        return root_val.element
     
     # inner recursive helper for remove
     def bubble_down(self, idx):
@@ -67,20 +78,32 @@ class min_heap:
         if min_heap.get_right_idx(idx) >= self.length: # already decremented length
             min_idx = (2 * idx) + 1
         else:
-            left = self.arr[min_heap.get_left_idx(idx)]
-            right = self.arr[min_heap.get_right_idx(idx)]
+            left = self.arr[min_heap.get_left_idx(idx)].prio
+            right = self.arr[min_heap.get_right_idx(idx)].prio
             if left < right:
                 min_idx = min_heap.get_left_idx(idx)
             else:
                 min_idx = min_heap.get_right_idx(idx)
         
-        if self.arr[min_idx] >= self.arr[idx]:
+        if self.arr[min_idx].prio >= self.arr[idx].prio:
             return
         # swap and bubble_down
         temp = self.arr[idx]
         self.arr[idx] = self.arr[min_idx]
         self.arr[min_idx] = temp
         self.bubble_down(min_idx)
+    
+    def update(self, element_to_update, new_prio):
+        new_node = node(element_to_update, new_prio)
+        for idx in range(len(self.arr)):
+            if self.arr[idx].element == element_to_update:
+                old_prio = self.arr[idx].prio
+                self.arr[idx] = new_node
+                if new_prio < old_prio:
+                    self.bubble_up(idx)
+                else:
+                    self.bubble_down(idx)
+                break
     
     # more helpers
     @staticmethod
@@ -97,13 +120,13 @@ class min_heap:
 
 def main():
     heap = min_heap()
-    heap.add(50)
-    heap.add(100)
-    heap.add(25)
-    heap.add(125)
-    heap.add(150)
+    heap.add('fifty', 50)
+    heap.add('hundo', 100)
+    heap.add('twentyfive', 25)
+    heap.add('one hundo twenty five', 125)
+    heap.add('one hundo fifty', 150)
     print(heap.peek())
-    heap.add(1)
+    heap.add('one', 1)
     print(heap.peek())
     print("remove: " + str(heap.remove()))
     print(heap.peek())
