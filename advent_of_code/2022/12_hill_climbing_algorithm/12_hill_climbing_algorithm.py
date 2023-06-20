@@ -19,6 +19,7 @@ class point:
     def __hash__(self):
         return hash((self.row, self.col))
 
+# part 1 solution
 def hill_climbing(filename):
     heightmap = []
 #     map_start_end = { 'E': ord('z'), 'S': ord('a') }    
@@ -116,7 +117,96 @@ def hill_climbing(filename):
     print()
     print(num_moves)
     return
+
+# part 2 solution
+# it's sort of a hill descent, but the rules are as if we were climbing...
+def hill_climb_reverse(filename, start_char, end_char):
+    heightmap = []
+    potential_end_points = []
+    # read input, set start, set end
+    with open(filename, 'rt', encoding='utf-8') as file:
+        row_num = 0
+        for line in file:
+            line = line.strip()
+            col_num = 0
+            for char in line:
+                if char == start_char:
+                    start = point(row_num, col_num)
+                if char == end_char:
+                    potential_end_points.append(point(row_num, col_num))
+                col_num += 1
+            heightmap.append(line)
+            row_num += 1
+    
+    height = len(heightmap)
+    width = len(heightmap[0])
+    # create data structures with start point at 0
+    dist_dict = { start: 0 }
+    prev_dict = { start: None } # start has no prev
+    unvisited_heap = min_heap()
+    
+    for row_num in range(0, height):
+        for col_num in range(0, width):
+            curr_point = point(row_num, col_num)
+            if start != curr_point:
+                dist_dict[curr_point] = sys.maxsize
+                prev_dict[curr_point] = None
+            # add all points to heap with max int except start (start is 0)
+            unvisited_heap.add(curr_point, dist_dict[curr_point])   
+    print(f"starting dist: {dist_dict}")
+    print(f"starting prev: {prev_dict}")
+    print(f"starting heap: {unvisited_heap}")
+    print(f"start: {start}")
+#     print("end: ", end='')
+#     for end_point in potential_end_points:
+#         print(f"{end_point}", end=', ')
+#     print()
+    
+    # BFS
+    dirs = [(1, 0), # top
+        (0, 1), # right
+        (-1, 0), # bot
+        (0, -1)] # left
+    while len(unvisited_heap) > 0:
+        curr_point = unvisited_heap.remove()
+        curr_height = get_height(heightmap, curr_point.row, curr_point.col)
+#         print(f"debug - visiting: {curr_point}, height: {curr_height}")
         
+        # check four directions
+        for dir_tuple in dirs:
+            row_vect, col_vect = dir_tuple
+            neighbor_row = curr_point.row + row_vect
+            neighbor_col = curr_point.col + col_vect
+            if neighbor_row < 0 or neighbor_row > height - 1:
+                continue
+            if neighbor_col < 0 or neighbor_col > width - 1:
+                continue
+            neighbor_height = get_height(heightmap,
+                                         neighbor_row,
+                                         neighbor_col)
+#             print(f" * debug - check neighbor: [{neighbor_row}, {neighbor_col}], height: {neighbor_height}")
+            # valid "reverse climb" - descend 1 or go up any
+            if neighbor_height >= curr_height - 1:
+#                 print(" * debug - valid neighbor")
+                neighbor_point = point(neighbor_row,
+                                       neighbor_col)
+                test_dist = dist_dict[curr_point] + 1
+                if test_dist < dist_dict[neighbor_point]:
+                    dist_dict[neighbor_point] = test_dist
+                    prev_dict[neighbor_point] = curr_point
+                    unvisited_heap.update(neighbor_point, test_dist)
+#                     print(f"    * debug - update shortest path to {neighbor_point}: {test_dist}")
+    
+    # output
+    min_step = sys.maxsize
+    for potential_end in potential_end_points:
+        test_step = dist_dict[potential_end]
+        if test_step < min_step:
+            min_step = test_step
+    
+    print(min_step)
+    return
+
 def get_height(heightmap, row, col):
     # TODO replace this with map
     char = heightmap[row][col]
@@ -135,6 +225,10 @@ def directions():
         row, col = dir_tuple
         print(row, col)
 
+# part 1
 hill_climbing('sample.txt')
 hill_climbing('input.txt')
+# part 2
+hill_climb_reverse('sample.txt', 'E', 'a')
+hill_climb_reverse('input.txt', 'E', 'a')
 # directions()
