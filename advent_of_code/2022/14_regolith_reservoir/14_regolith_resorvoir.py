@@ -20,7 +20,7 @@ class rock_map:
         self.min_col = min_col
         self.max_col = max_col
         # empty grid
-        self.width = self.max_col - self.min_col + 2
+        self.width = self.max_col - self.min_col + 3
         self.height = self.max_row + 5
         self.grid = [[air for col in range(self.width)] for row in range(self.max_row + 5)]
         #
@@ -33,12 +33,12 @@ class rock_map:
         
         retval += " "
         for i in range(self.width):
-            retval += f"{i % 9}"
+            retval += f"{i % 10}"
         retval += "\n"
         i = 0
         
         for row in self.grid:
-            retval += f"{i % 9}"
+            retval += f"{i % 10}"
             for col in row:
                 retval += chr(col)
             retval += "\n"
@@ -112,3 +112,4 @@ def print_test(arr):
         print()
 
 falling_sand('sample.txt')
+falling_sand('input.txt')
