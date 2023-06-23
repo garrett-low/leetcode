@@ -1,8 +1,10 @@
 import sys
+# import os
 
 rock = 9608
 air = 9617
 sand = 9679
+sand_x = 0
 
 class point:
     def __init__(self, x, y):
@@ -20,7 +22,7 @@ class rock_map:
         self.min_col = min_col
         self.max_col = max_col
         # empty grid
-        self.width = self.max_col - self.min_col + 3
+        self.width = self.max_col - self.min_col + 3 # inclusive of endpoint
         self.height = self.max_row + 5
         self.grid = [[air for col in range(self.width)] for row in range(self.max_row + 5)]
         #
