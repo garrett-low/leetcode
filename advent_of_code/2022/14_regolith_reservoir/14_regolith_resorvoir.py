@@ -30,11 +30,13 @@ class rock_map:
         
     def __str__(self):
         retval = f"{self.min_row}, {self.max_row}, {self.min_col}, {self.max_col}\n"
+        
         retval += " "
         for i in range(self.width):
             retval += f"{i % 9}"
         retval += "\n"
         i = 0
+        
         for row in self.grid:
             retval += f"{i % 9}"
             for col in row:
@@ -94,11 +96,7 @@ def falling_sand(filename):
                     min_col = p_col
                 elif p_col > max_col:
                     max_col = p_col
-            rock_line_idx += 1  
-#     print(min_row)
-#     print(max_row)
-#     print(min_col)
-#     print(max_col)
+            rock_line_idx += 1
     
     rockmapobj = rock_map(rock_lines, min_row, max_row, min_col, max_col)
     print(rockmapobj)
