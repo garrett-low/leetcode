@@ -60,7 +60,7 @@ class rock_map:
                 row_end = point2.y
             else:
                 row_start = point2.y
-                row_end = point2.y
+                row_end = point1.y
             # inclusive of end point
             for row in range(row_start, row_end + 1):
                 self.grid[row][self.getx(point1.x)] = rock
@@ -161,6 +161,14 @@ def falling_sand(filename):
                 elif p_col > max_col:
                     max_col = p_col
             rock_line_idx += 1
+    
+    # read in correctly?
+#     for rock_line in rock_lines:
+#         for i in range(len(rock_line)):
+#             print(f"{rock_line[i].x},{rock_line[i].y}", end='')
+#             if i < len(rock_line) - 1:
+#                 print(" -> ", end='')
+#         print()
     
     rockmapobj = rock_map(rock_lines, min_row, max_row, min_col, max_col)
     print(rockmapobj)
