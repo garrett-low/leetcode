@@ -4,7 +4,7 @@ import sys
 rock = 9608
 air = 9617
 sand = 9679
-sand_x = 0
+sand_x = 500
 
 class point:
     def __init__(self, x, y):
@@ -24,11 +24,17 @@ class rock_map:
         # empty grid
         self.width = self.max_col - self.min_col + 3 # inclusive of endpoint
         self.height = self.max_row + 5
-        self.grid = [[air for col in range(self.width)] for row in range(self.max_row + 5)]
+        self.grid = [[air for col in range(self.width)] for row in range(self.height)]
         #
         for rock_line in rock_lines:
             for i in range(len(rock_line) - 1):
-                self.draw_rock(rock_line[i], rock_line[i + 1])      
+                self.draw_rock(rock_line[i], rock_line[i + 1])
+        #
+#         self.origin_x = sand_x - self.min_row + 1 # padding left
+#         self.origin_y = 0
+        self.move_dir = [(0, 1),  # down
+                         (-1, 1), # down and left
+                         (1, 1)]  # down and right
         
     def __str__(self):
         retval = f"{self.min_row}, {self.max_row}, {self.min_col}, {self.max_col}\n"
@@ -71,6 +77,62 @@ class rock_map:
     
     def getx(self, x):
         return x - self.min_col + 1
+    
+    def sim_sand(self):
+        i = 0
+        sand_origin_x = self.getx(sand_x)
+        sand_origin_y = 0
+        
+#         new_sand = point(sand_origin_x, sand_origin_y)
+#         self.fall(new_sand)
+        
+        # Sand falls one at a time
+        done = False
+        while done != None:
+            new_sand = point(sand_origin_x, sand_origin_y)
+            done = self.fall(new_sand)
+            i += 1
+        return i - 1 # minus the one that fell into the void
+    
+    def fall(self,curr):
+#         origin = point(curr.x, curr.y)
+#         prev = None
+        done = False
+        
+        while not done:
+            prev = point(curr.x, curr.y)
+            for dir_tuple in self.move_dir: # checked in list's order
+                x, y = dir_tuple
+#                 print(f"debug: check [{x}, {y}]")
+                
+                # Into the void
+                if curr.y + y >= self.height:
+                    print(f"debug: void: {curr.x}, {curr.y} + {y}")
+                    return None
+                if curr.x + x < 0 or curr.x + x >= self.width:
+                    print(f"debug: void: {curr.x} + {x}, {curr.y}")
+                    return None
+                
+                if self.grid[curr.y + y][curr.x + x] == air:
+                    curr.x += x
+                    curr.y += y
+#                     print(f"debug: [{curr.x}, {curr.y}]")
+                    break # out of the for loop
+            done = self.is_at_rest(curr, prev)
+        
+        # sand falls one at a time, move it
+        self.grid[curr.y][curr.x] = sand
+#         print(f"debug: {chr(self.grid[curr.y][curr.x])} at [{curr.x}, {curr.y}]")
+        
+        return done
+                
+        
+    def is_at_rest(self, curr, prev):
+        # rest
+        if prev.x == curr.x and prev.y == curr.y:
+            return True
+        # still not at rest
+        return False
 
 def falling_sand(filename):    
     min_row = sys.maxsize
@@ -102,6 +164,9 @@ def falling_sand(filename):
     
     rockmapobj = rock_map(rock_lines, min_row, max_row, min_col, max_col)
     print(rockmapobj)
+    num_sand = rockmapobj.sim_sand()
+    print(rockmapobj)
+    print(num_sand)
 
 def print_test(arr):
 #     arr = [[air for col in range(10)] for row in range(10)]
@@ -113,5 +178,5 @@ def print_test(arr):
             print(chr(col), end='')
         print()
 
-falling_sand('sample.txt')
+# falling_sand('sample.txt')
 falling_sand('input.txt')
