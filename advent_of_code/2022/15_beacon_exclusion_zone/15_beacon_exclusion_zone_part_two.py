@@ -67,3 +67,5 @@ def test_what_is_the_python_abs_fn(num):
     
 beacon('sample.txt', 0, 20)
 # beacon('input.txt', 2000000) #p1
+
+#lower 0, upper 4000000 for p2
