@@ -7,7 +7,6 @@ class max_heap:
         retval = ""
         for item in self.arr:
             retval += f"[{item}]"
-        retval += "\n"
         return retval
     def add(self, val):
         if self.length >= self.cap:
@@ -42,10 +41,39 @@ class max_heap:
         return self.arr[0]
     
     def remove(self):
-        pass
+        if self.length <= 0:
+            print("I'm empty!")
+            return None
+        
+        print(f"Removing: {self.arr[0]}")
+        retval = self.arr[0]
+        self.arr[0] = self.arr[self.length - 1]
+        self.arr[self.length - 1] = None
+        self.length -= 1
+        self.bubble_down(0)
+        
+        return retval
     
     def bubble_down(self, idx):
-        pass
+        if idx >= self.length - 1:
+            return
+        left_idx = heap.get_left(idx)
+        if left_idx >= self.length - 1: # no children
+            return
+        
+        curr = self.arr[idx]
+        right_idx = heap.get_right(idx)
+        swap_idx = - 1
+        if curr < self.arr[left_idx]:
+            swap_idx = left_idx
+        elif right_idx <= self.length - 1 and curr < self.arr[right_idx]:
+            swap_idx = right_idx
+        else:
+            return
+        
+        self.arr[idx] = self.arr[swap_idx]
+        self.arr[swap_idx] = curr
+        self.bubble_down(swap_idx)
     
     @staticmethod
     def get_parent(index):
@@ -66,5 +94,16 @@ heap.add(420)
 heap.add(69)
 print(heap)
 heap.peek()
+heap.add(120)
+heap.remove()
+print(heap)
+heap.remove()
+print(heap)
+heap.remove()
+print(heap)
+heap.remove()
+print(heap)
+heap.remove()
+print(heap)
 
 # forgot base case for bubble_up of quitting once we're at arr[0]
