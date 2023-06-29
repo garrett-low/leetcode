@@ -3,11 +3,13 @@ class max_heap:
         self.cap = cap
         self.arr = [None] * cap
         self.length = 0
+        
     def __str__(self):
         retval = ""
         for item in self.arr:
             retval += f"[{item}]"
         return retval
+    
     def add(self, val):
         if self.length >= self.cap:
             print("I'm full!")
@@ -45,7 +47,7 @@ class max_heap:
             print("I'm empty!")
             return None
         
-        print(f"Removing: {self.arr[0]}")
+#         print(f"Removing: {self.arr[0]}")
         retval = self.arr[0]
         self.arr[0] = self.arr[self.length - 1]
         self.arr[self.length - 1] = None
@@ -105,5 +107,6 @@ heap.remove()
 print(heap)
 heap.remove()
 print(heap)
+heap.remove()
 
 # forgot base case for bubble_up of quitting once we're at arr[0]
