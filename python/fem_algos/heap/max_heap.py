@@ -77,6 +77,18 @@ class max_heap:
         self.arr[swap_idx] = curr
         self.bubble_down(swap_idx)
     
+    # An O(n) update (there are better heap implementations)
+    def update(self, old_val, new_val):
+        for i in range(self.length):
+            if self.arr[i] == old_val:
+                self.arr[i] = new_val
+                break
+        
+        if new_val > old_val:
+            self.bubble_up(i, new_val)
+        else:
+            self.bubble_down(i)
+    
     @staticmethod
     def get_parent(index):
         return index // 2;
@@ -97,6 +109,9 @@ heap.add(69)
 print(heap)
 heap.peek()
 heap.add(120)
+print(heap)
+heap.update(69,42069)
+print(heap)
 heap.remove()
 print(heap)
 heap.remove()
