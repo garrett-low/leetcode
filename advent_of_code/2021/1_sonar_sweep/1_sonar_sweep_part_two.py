@@ -6,21 +6,26 @@ def sweep(filename):
         window = deque()
         window_sums = deque()
         num_increase = 0
+        
         for line in file:
             curr = int(line)
             window.append(curr)
+            
             if len(window) == 3:
                 threesum = 0
                 for num in window:
                     threesum += num
                 window_sums.append(threesum)
                 window.popleft()
-            if len(window_sums) == 2:
-                prev = window_sums.popleft()
-                curr = window_sums[0]
-#                 print(f"prev: {prev}, curr: {curr}")
-                if curr > prev:
-                    num_increase += 1
+            
+            if len(window_sums) != 2:
+                continue
+
+            prev = window_sums.popleft()
+            curr = window_sums[0]
+#            print(f"prev: {prev}, curr: {curr}")
+            if curr > prev:
+                num_increase += 1
     
 #     curr = sys.maxsize
 #     prev = sys.maxsize
