@@ -32,3 +32,4 @@ qs([420, 69, 350, 1234, 234, 34, 99, 5])
 
 # forgot return new pivot index
 # forgot base case
+# forgot new pivot starts at (lo - 1) not (-1)
