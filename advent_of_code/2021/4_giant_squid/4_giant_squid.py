@@ -43,28 +43,29 @@ def bingo(filename):
 #             print(f"{row}")
 #         print()
 
-diag_one = {(0,0), (1,1), (2,2), (3,3), (4,4)}
-diag_two = {(0,4), (1,3), (2,2), (3,1), (4,0)}
-def check_bingo(board, row_num, col_num):    
-    test_coord = (row_num, col_num)
-    if test_coord in diag_one:
-        is_bingo = True
-        for diag_coord in diag_one:
-            row, col = diag_coord
-            if board[row][col] != True:
-                is_bingo = False
-                break
-        if is_bingo == True:
-            return is_bingo
-    elif test_coord in diag_two:
-        is_bingo = True
-        for diag_coord in diag_one:
-            row, col = diag_coord
-            if board[row][col] != True:
-                is_bingo = False
-                break
-        if is_bingo == True:
-            return is_bingo
+# diag_one = {(0,0), (1,1), (2,2), (3,3), (4,4)}
+# diag_two = {(0,4), (1,3), (2,2), (3,1), (4,0)}
+def check_bingo(board, row_num, col_num):
+    # diagonals don't count!!!
+#     test_coord = (row_num, col_num)
+#     if test_coord in diag_one:
+#         is_bingo = True
+#         for diag_coord in diag_one:
+#             row, col = diag_coord
+#             if board[row][col] != True:
+#                 is_bingo = False
+#                 break
+#         if is_bingo == True:
+#             return is_bingo
+#     elif test_coord in diag_two:
+#         is_bingo = True
+#         for diag_coord in diag_one:
+#             row, col = diag_coord
+#             if board[row][col] != True:
+#                 is_bingo = False
+#                 break
+#         if is_bingo == True:
+#             return is_bingo
     
     # check horizontal
     is_bingo = True
