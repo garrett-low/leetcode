@@ -20,13 +20,13 @@ class min_heap:
     def __len__(self):
         return self.length
     
-    def isEmpty(self):
+    def is_empty(self):
         return self.length == 0
     
     # return min value at root
     # O(1)
     def peek(self):
-        if self.isEmpty():
+        if self.is_empty():
             return None
         return self.arr[0]
     
@@ -55,7 +55,7 @@ class min_heap:
     # remove and return min value (root), maintain heap rule
     # O(log n)
     def remove(self):
-        if self.isEmpty():
+        if self.is_empty():
             return None
         root_val = self.arr[0]
         

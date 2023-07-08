@@ -24,7 +24,7 @@ def dijkstra(filename, to_node = None):
         prev_dict[node] = None
         unvisited_min_heap.add(node, dist_dict[node])
     
-    while not unvisited_min_heap.isEmpty():
+    while not unvisited_min_heap.is_empty():
         curr_node = unvisited_min_heap.remove()
         for neighbor in graph.adj_list[curr_node]:
             old_dist = dist_dict[neighbor.to]
