@@ -17,12 +17,12 @@ def find_median(filename):
         median = (ary[(len(ary)//2) - 1] + ary[(len(ary)//2)]) // 2
     else:
         median = ary[len(ary)//2]
-    print(f"median:\t{median}")
+    print(f"median:\t\t{median}")
     
     retval = 0
     for i in range(len(ary)):
         retval += abs(ary[i] - median)
-    print(f"fuel:\t{retval}")
+    print(f"fuel:\t\t{retval}")
 
 def qs(ary):
     qs_inner(ary, 0, len(ary) - 1)
@@ -67,16 +67,15 @@ def part_two(filename):
                     break
             else:
                 curr_int_str += char
-    print(crab_sum)
     avg = crab_sum / len(crab_ary)
-    print(f"mean:\t{avg}")
     avg_ceil = math.ceil(avg)
     avg_floor = math.floor(avg)
+    print(f"mean:\t\t{avg}")
     
-    fuel_min = calculate_fuel(crab_ary, avg_ceil, avg_floor)
-    print(fuel_min)
+    fuel_min = calculate_fuel_min(crab_ary, avg_ceil, avg_floor)
+    print(f"min fuel:\t{fuel_min}")
 
-def calculate_fuel(crab_ary, match_pos1, match_pos2):
+def calculate_fuel_min(crab_ary, match_pos1, match_pos2):
     fuel_pos1 = 0
     fuel_pos2 = 0
     # (N * (N + 1)) / 2
