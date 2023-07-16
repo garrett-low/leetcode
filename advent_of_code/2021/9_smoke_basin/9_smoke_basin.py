@@ -64,34 +64,72 @@ def smoke_two(filename):
             if not is_not_lowpoint:
                 lowpoint.append((row_idx, col_idx))
     
-    basin_sum_list = []
+    # I misread the problem and started adding the heights of positions in the basin.
+    # Ignore all that
+    basin_size_list = []
     for point_tuple in lowpoint:
         row_idx, col_idx = point_tuple
         visited = set()
-        basin_sum = 0
-        traverse(heightmap, row_idx, col_idx, rows_num, cols_num, visited, basin_sum)
-        print(visited)
-        print(basin_sum)
+        basin_sum = traverse(heightmap, row_idx, col_idx, rows_num, cols_num, visited)
+#         print(visited)
+#         print(len(visited))
+#         print(basin_sum)
+        basin_size_list.append(len(visited))
+#     print(basin_sum_all)
+#     print(basin_size_list)
+    qs(basin_size_list)
+    
+    basin_top_product = 1
+    for i in range(3):
+        basin_top_product *= basin_size_list[i]
+    print(basin_top_product)
+    return
 
-def traverse(heightmap, row_idx, col_idx, rows_num, cols_num, visited, basin_sum):
+def traverse(heightmap, row_idx, col_idx, rows_num, cols_num, visited):
     if (row_idx, col_idx) in visited:
-        return False
+        return 0
     if row_idx >= rows_num or row_idx < 0 or col_idx >= cols_num or col_idx < 0:
-        return False
+        return 0
     curr = heightmap[row_idx][col_idx]
     if curr >= 9:
-        return False
-    
+        return 0
+       
     visited.add((row_idx, col_idx))
+    basin_sum = heightmap[row_idx][col_idx]
     
     for dir_tuple in directions:
         rowdiff, coldiff = dir_tuple
         row_test = row_idx - rowdiff
         col_test = col_idx - coldiff
-        if traverse(heightmap, row_test, col_test, rows_num, cols_num, visited, basin_sum):
-            basin_sum += heightmap[row_test][col_test]
-            return True
+        basin_sum += traverse(heightmap, row_test, col_test, rows_num, cols_num, visited)
     
-    return False
+    return basin_sum
 
+def qs(arr):
+    qs_inner(arr, 0, len(arr) - 1)
+
+def qs_inner(arr, lo, hi):
+    if lo >= hi or lo < 0:
+        return
+    p = pivot(arr, lo, hi)
+    qs_inner(arr, p + 1, hi)
+    qs_inner(arr, lo, p - 1)
+    
+def pivot(arr, lo, hi):
+    p = arr[hi]
+    p_idx = lo - 1
+    
+    for i in range(lo, hi):
+        if arr[i] > p:
+            p_idx += 1
+            temp = arr[i]
+            arr[i] = arr[p_idx]
+            arr[p_idx] = temp
+    
+    p_idx += 1
+    arr[hi] = arr[p_idx]
+    arr[p_idx] = p
+    return p_idx
+    
 smoke_two('sample.txt')
+smoke_two('input.txt')
