@@ -35,6 +35,7 @@ def smoke(filename):
     
     return
 
+print("PART ONE")
 smoke('sample.txt')
 smoke('input.txt')
 
@@ -70,13 +71,8 @@ def smoke_two(filename):
     for point_tuple in lowpoint:
         row_idx, col_idx = point_tuple
         visited = set()
-        basin_sum = traverse(heightmap, row_idx, col_idx, rows_num, cols_num, visited)
-#         print(visited)
-#         print(len(visited))
-#         print(basin_sum)
+        traverse(heightmap, row_idx, col_idx, rows_num, cols_num, visited)
         basin_size_list.append(len(visited))
-#     print(basin_sum_all)
-#     print(basin_size_list)
     qs(basin_size_list)
     
     basin_top_product = 1
@@ -130,6 +126,7 @@ def pivot(arr, lo, hi):
     arr[hi] = arr[p_idx]
     arr[p_idx] = p
     return p_idx
-    
+
+print("PART TWO")
 smoke_two('sample.txt')
 smoke_two('input.txt')
