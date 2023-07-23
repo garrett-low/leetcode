@@ -3,8 +3,6 @@ def flash(filename, steps = 100):
     with open(filename, 'rt', encoding = 'utf-8') as file:
         for line in file:
             octo_map.append([int(x) for x in line.strip()])
-#     print("START")
-#     pp(octo_map)
     
     count_flash = 0
     for step_num in range(steps):
@@ -15,8 +13,6 @@ def flash(filename, steps = 100):
         for row_i in range(len(octo_map)):
             for col_i in range(len(octo_map[0])):
                 count_flash += flash_cascade(octo_map, row_i, col_i)
-#         print(f"STEP {step_num}")
-#         pp(octo_map)
     print(count_flash)
 
 neighbor_list = [
@@ -31,9 +27,7 @@ neighbor_list = [
     ]
 
 def flash_cascade(octo_map, row_i, col_i):
-    if octo_map[row_i][col_i] == 0:
-        return 0
-    elif octo_map[row_i][col_i] > 9:
+    if octo_map[row_i][col_i] > 9:
         octo_map[row_i][col_i] = 0
         recur_flash_count = 0
         for dir_tuple in neighbor_list:
