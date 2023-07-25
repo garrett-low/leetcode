@@ -79,3 +79,4 @@ def debug_input(template, pair_insert_dict):
 
 polymer('sample.txt')
 polymer('input.txt')
+# my answer for p1 is 2345
