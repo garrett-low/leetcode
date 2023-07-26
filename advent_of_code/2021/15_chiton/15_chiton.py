@@ -14,12 +14,10 @@ def chiton(filename, is_part_two = False):
     chiton_map = []
     with open(filename, 'rt', encoding = 'utf-8') as file:
         for line in file:
-#             chiton_map.append([int(x) for x in line.strip()])
             chiton_map.append(line.strip())
     
     if is_part_two:
         multiply_map(chiton_map)
-#         return
     
     prev_dict = {}
     dist_dict = {}
@@ -72,7 +70,7 @@ def multiply_map(chiton_map):
             for col_i in range(num_cols * horizontal_step_i, num_cols * (horizontal_step_i + 1)):
                 tiled_val = str((int(chiton_map[row_i][col_i]) % 9) + 1)
                 chiton_map[row_i] += tiled_val
-#     debug_print_map(chiton_map, num_rows, num_cols)
+#     debug_print_map(chiton_map, num_cols)
     
     for vertical_step_i in range(4):
         for row_i in range(num_rows * vertical_step_i, num_rows * (vertical_step_i + 1)):
@@ -87,9 +85,9 @@ def multiply_map(chiton_map):
                 for col_i in range(num_cols * horizontal_step_i, num_cols * (horizontal_step_i + 1)):
                     tiled_val = str((int(chiton_map[row_i][col_i]) % 9) + 1)
                     chiton_map[row_i] += tiled_val
-#     debug_print_map(chiton_map, num_rows, num_cols)
+#     debug_print_map(chiton_map, num_cols)
 
-def debug_print_map(chiton_map, num_rows, num_cols):
+def debug_print_map(chiton_map, num_cols):
     for col_i in range(len(chiton_map[0])):
         if col_i % (num_cols - 1) == 0:
             print(col_i, end = '')
