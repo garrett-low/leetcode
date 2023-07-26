@@ -14,11 +14,12 @@ def chiton(filename, is_part_two = False):
     chiton_map = []
     with open(filename, 'rt', encoding = 'utf-8') as file:
         for line in file:
-            chiton_map.append([int(x) for x in line.strip()])
+#             chiton_map.append([int(x) for x in line.strip()])
+            chiton_map.append(line.strip())
     
     if is_part_two:
         multiply_map(chiton_map)
-        return
+#         return
     
     prev_dict = {}
     dist_dict = {}
@@ -46,7 +47,7 @@ def chiton(filename, is_part_two = False):
             if neighbor_row > end_row or neighbor_row < 0:
                 continue
             
-            test_dist = dist_dict[curr] + chiton_map[neighbor_row][neighbor_col]
+            test_dist = dist_dict[curr] + int(chiton_map[neighbor_row][neighbor_col])
             if test_dist < dist_dict[neighbor_tuple]:
                 dist_dict[neighbor_tuple] = test_dist
                 prev_dict[neighbor_tuple] = curr
@@ -66,15 +67,27 @@ def debug_print_output_path(prev_dict, end_tuple):
 def multiply_map(chiton_map):
     num_rows = len(chiton_map)
     num_cols = len(chiton_map[0])
-    for step_i in range(5):
+    for horizontal_step_i in range(4):
         for row_i in range(num_rows):
-            for col_i in range(num_cols):
-                tiled_val = (chiton_map[row_i][col_i] + 1) % 9
-                chiton_map[row_i].append(tiled_val)
-    debug_print_map(chiton_map, num_rows, num_cols)
+            for col_i in range(num_cols * horizontal_step_i, num_cols * (horizontal_step_i + 1)):
+                tiled_val = str((int(chiton_map[row_i][col_i]) % 9) + 1)
+                chiton_map[row_i] += tiled_val
+#     debug_print_map(chiton_map, num_rows, num_cols)
     
-    for step_i in range(5):
-        for row_i in range(
+    for vertical_step_i in range(4):
+        for row_i in range(num_rows * vertical_step_i, num_rows * (vertical_step_i + 1)):
+            tiled_row = ""
+            for col_i in range(num_cols):
+                tiled_val = str((int(chiton_map[row_i][col_i]) % 9) + 1)
+                tiled_row += tiled_val
+            chiton_map.append(tiled_row)
+        
+        for horizontal_step_i in range(4):
+            for row_i in range(num_rows * (vertical_step_i + 1), num_rows * (vertical_step_i + 2)):
+                for col_i in range(num_cols * horizontal_step_i, num_cols * (horizontal_step_i + 1)):
+                    tiled_val = str((int(chiton_map[row_i][col_i]) % 9) + 1)
+                    chiton_map[row_i] += tiled_val
+#     debug_print_map(chiton_map, num_rows, num_cols)
 
 def debug_print_map(chiton_map, num_rows, num_cols):
     for col_i in range(len(chiton_map[0])):
@@ -85,7 +98,7 @@ def debug_print_map(chiton_map, num_rows, num_cols):
     print()
         
     for row_i in range(len(chiton_map)):
-        for col_i in range(len(chiton_map[0])):
+        for col_i in range(len(chiton_map[row_i])):
             print(chiton_map[row_i][col_i], end='')
         print()
                 
@@ -99,6 +112,7 @@ class node:
 class min_heap:
     def __init__(self):
         self.arr = []
+        self.val_index_dict = {}
     def __str__(self):
         retval = ""
         for i in range(len(self.arr)):
@@ -120,6 +134,7 @@ class min_heap:
     
     def add(self, prio, val):
         self.arr.append(node(prio, val))
+        self.val_index_dict[val] = len(self.arr) - 1
         self.bubble_up(len(self.arr) - 1)
     
     def bubble_up(self, curr_idx):
@@ -134,6 +149,8 @@ class min_heap:
         
         self.arr[curr_idx] = parent
         self.arr[par_idx] = curr
+        self.val_index_dict[curr.val] = par_idx
+        self.val_index_dict[parent.val] = curr_idx
         self.bubble_up(par_idx)
         return
     
@@ -144,11 +161,13 @@ class min_heap:
         if len(self.arr) == 1:
             return self.arr.pop().val
         
-        head = self.arr[0].val
+        head_val = self.arr[0].val
         self.arr[0] = self.arr.pop()
+        self.val_index_dict.pop(head_val)
+        self.val_index_dict[self.arr[0].val] = 0
         self.bubble_down(0)
         
-        return head
+        return head_val
     
 #     def bubble_down(self, curr_idx):
 #         left_idx = min_heap.get_left(curr_idx)
@@ -218,5 +237,5 @@ class min_heap:
 # chiton('sample.txt')
 # chiton('input.txt')
 
-chiton('sample.txt', True)
-# chiton('input.txt', True)
+# chiton('sample.txt', True)
+chiton('input.txt', True)
