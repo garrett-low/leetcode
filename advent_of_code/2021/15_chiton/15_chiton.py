@@ -49,12 +49,10 @@ def chiton(filename):
                 unvisited_min_heap.update(neighbor_tuple, test_dist)
                 
     output_path = deque((end_row, end_col))
-    output_risk = dist_dict[(end_row, end_col)] # start with penultimate risk
+    output_risk = dist_dict[(end_row, end_col)]
     curr_pos = prev_dict[(end_row, end_col)]
     while curr_pos != None:
-#         print(curr_pos)
         output_path.appendleft(curr_pos)
-#         output_risk += dist_dict[curr_pos]
         curr_pos = prev_dict[curr_pos]
     print(output_path)
     print(output_risk)
