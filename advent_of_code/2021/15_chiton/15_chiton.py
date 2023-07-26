@@ -208,6 +208,8 @@ class min_heap:
         temp = self.arr[idx]
         self.arr[idx] = self.arr[min_idx]
         self.arr[min_idx] = temp
+        self.val_index_dict[self.arr[idx].val] = idx
+        self.val_index_dict[self.arr[min_idx].val] = min_idx
         self.bubble_down(min_idx)
     
     def peek(self):
@@ -218,10 +220,11 @@ class min_heap:
             print("\tI'm empty!")
             return
         found_i = -1
-        for i in range(len(self.arr)):
-            if val == self.arr[i].val:
-                found_i = i
-                break
+#         for i in range(len(self.arr)):
+#             if val == self.arr[i].val:
+#                 found_i = i
+#                 break
+        found_i = self.val_index_dict[val]
         
         if found_i == -1:
             print("\tNode val not in heap!")
