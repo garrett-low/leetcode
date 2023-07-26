@@ -10,11 +10,15 @@ NEIGHBOR_DIRS = [
 
 START = (0, 0)
 
-def chiton(filename):
+def chiton(filename, is_part_two = False):
     chiton_map = []
     with open(filename, 'rt', encoding = 'utf-8') as file:
         for line in file:
             chiton_map.append([int(x) for x in line.strip()])
+    
+    if is_part_two:
+        multiply_map(chiton_map)
+        return
     
     prev_dict = {}
     dist_dict = {}
@@ -47,16 +51,44 @@ def chiton(filename):
                 dist_dict[neighbor_tuple] = test_dist
                 prev_dict[neighbor_tuple] = curr
                 unvisited_min_heap.update(neighbor_tuple, test_dist)
-                
-    output_path = deque((end_row, end_col))
+#     debug_print_output_path(prev_dict, (end_row, end_col))
     output_risk = dist_dict[(end_row, end_col)]
+    print(output_risk)
+
+def debug_print_output_path(prev_dict, end_tuple):
+    output_path = deque((end_row, end_col))
     curr_pos = prev_dict[(end_row, end_col)]
     while curr_pos != None:
         output_path.appendleft(curr_pos)
         curr_pos = prev_dict[curr_pos]
     print(output_path)
-    print(output_risk)
+
+def multiply_map(chiton_map):
+    num_rows = len(chiton_map)
+    num_cols = len(chiton_map[0])
+    for step_i in range(5):
+        for row_i in range(num_rows):
+            for col_i in range(num_cols):
+                tiled_val = (chiton_map[row_i][col_i] + 1) % 9
+                chiton_map[row_i].append(tiled_val)
+    debug_print_map(chiton_map, num_rows, num_cols)
     
+    for step_i in range(5):
+        for row_i in range(
+
+def debug_print_map(chiton_map, num_rows, num_cols):
+    for col_i in range(len(chiton_map[0])):
+        if col_i % (num_cols - 1) == 0:
+            print(col_i, end = '')
+        else:
+            print(' ', end = '')
+    print()
+        
+    for row_i in range(len(chiton_map)):
+        for col_i in range(len(chiton_map[0])):
+            print(chiton_map[row_i][col_i], end='')
+        print()
+                
 class node:
     def __init__(self, prio, val):
         self.prio = prio
@@ -183,5 +215,8 @@ class min_heap:
         else:
             self.bubble_down(found_i)
         
-chiton('sample.txt')
-chiton('input.txt')
+# chiton('sample.txt')
+# chiton('input.txt')
+
+chiton('sample.txt', True)
+# chiton('input.txt', True)
