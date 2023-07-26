@@ -33,22 +33,25 @@ def chiton(filename):
     
     while not unvisited_min_heap.is_empty():
         curr = unvisited_min_heap.remove()
+#         print(f"VISIT: {curr}")
     
         for dirs_tuple in NEIGHBOR_DIRS:
-            neighbor_row, neighbor_col = dirs_tuple
-            neighbor_row += curr.val[0]
-            neighbor_col += curr.val[1]
+            neighbor_row = dirs_tuple[0] + curr[0]
+            neighbor_col = dirs_tuple[1] + curr[1]
             neighbor_tuple = (neighbor_row, neighbor_col)
+#             print(f"\tCHECK: {neighbor_tuple}")
             if neighbor_col > end_col or neighbor_col < 0:
+#                 print(f"\t\tOUTSIDE COL")
                 continue
             if neighbor_row > end_row or neighbor_row < 0:
+#                 print(f"\t\tOUTSIDE ROW")
                 continue
             
-            test_dist = dist_dict[curr.val] + chiton_map[neighbor_row][neighbor_col]
+            test_dist = dist_dict[curr] + chiton_map[neighbor_row][neighbor_col]
             if test_dist < dist_dict[neighbor_tuple]:
-                print(f"UPDATE {neighbor_tuple}: {curr.val}, {test_dist}")
+#                 print(f"\tUPDATE shortest path --> {neighbor_tuple}: {test_dist}")
                 dist_dict[neighbor_tuple] = test_dist
-                prev_dict[neighbor_tuple] = curr.val
+                prev_dict[neighbor_tuple] = curr
                 unvisited_min_heap.update(neighbor_tuple, test_dist)
 #         print(unvisited_min_heap)
     
@@ -97,63 +100,105 @@ class min_heap:
         self.bubble_up(len(self.arr) - 1)
     
     def bubble_up(self, curr_idx):
-        par_idx = min_heap.get_parent(curr_idx)
-        if par_idx < 0:
+        if curr_idx <= 0:
+            print()
             return
+#         print("bubb...", end='')
+        par_idx = min_heap.get_parent(curr_idx)
+
         parent = self.arr[par_idx]
         curr = self.arr[curr_idx]
-        if parent.prio > curr.prio:
-            self.arr[curr_idx] = parent
-            self.arr[par_idx] = curr
-            self.bubble_up(par_idx)
+#         print(f"{parent}, {curr}", end='')
+        if parent.prio <= curr.prio:
+            print()
+            return
+#         print("bubbling...", end='')
+        self.arr[curr_idx] = parent
+        self.arr[par_idx] = curr
+#             print("bubble_up")
+        self.bubble_up(par_idx)
+        print()
         return
     
     def remove(self):
         if len(self.arr) == 0:
-            print("Nothing to remove!")
+            print("\tNothing to remove!")
             return None
         if len(self.arr) == 1:
-            return self.arr.pop()
+            return self.arr.pop().val
         
-        head = self.arr[0]
+        head = self.arr[0].val
         self.arr[0] = self.arr.pop()
         self.bubble_down(0)
         
         return head
     
-    def bubble_down(self, curr_idx):
-        left_idx = min_heap.get_left(curr_idx)
-        if left_idx >= len(self.arr):
+#     def bubble_down(self, curr_idx):
+#         left_idx = min_heap.get_left(curr_idx)
+#         if left_idx >= len(self.arr):
+#             return
+#         curr = self.arr[curr_idx]
+#         left = self.arr[left_idx]
+#         if left.prio < curr.prio:
+#             self.arr[curr_idx] = left
+#             self.arr[left_idx] = curr
+#             self.bubble_down(left_idx)
+#             return
+#         right_idx = min_heap.get_right(curr_idx)
+#         if right_idx >= len(self.arr):
+#             return
+#         right = self.arr[right_idx]
+#         if right.prio < curr.prio:
+#             self.arr[curr_idx] = right
+#             self.arr[right_idx] = curr
+#             self.bubble_down(right_idx)
+    def bubble_down(self, idx):
+        if min_heap.get_left(idx) >= len(self.arr): # already decremented length
             return
-        curr = self.arr[curr_idx]
-        left = self.arr[left_idx]
-        if left.prio < curr.prio:
-            self.arr[curr_idx] = left
-            self.arr[left_idx] = curr
-            self.bubble_down(left_idx)
+        # find min child and swap if lower
+        if min_heap.get_right(idx) >= len(self.arr): # already decremented length
+            min_idx = (2 * idx) + 1
+        else:
+            left = self.arr[min_heap.get_left(idx)].prio
+            right = self.arr[min_heap.get_right(idx)].prio
+            if left < right:
+                min_idx = min_heap.get_left(idx)
+            else:
+                min_idx = min_heap.get_right(idx)
+        
+        if self.arr[min_idx].prio >= self.arr[idx].prio:
             return
-        right_idx = min_heap.get_right(curr_idx)
-        if right_idx >= len(self.arr):
-            return
-        right = self.arr[right_idx]
-        if right.prio < curr.prio:
-            self.arr[curr_idx] = right
-            self.arr[right_idx] = curr
-            self.bubble_down(right_idx)
+        # swap and bubble_down
+        temp = self.arr[idx]
+        self.arr[idx] = self.arr[min_idx]
+        self.arr[min_idx] = temp
+        self.bubble_down(min_idx)
+    
+    def peek(self):
+        return self.arr[0]
     
     def update(self, val, new_prio):
         if len(self.arr) == 0:
-            print("I'm empty!")
+            print("\tI'm empty!")
             return
+        found_i = -1
         for i in range(len(self.arr)):
             if val == self.arr[i].val:
+                found_i = i
                 break
-        old_prio = self.arr[i].prio
-        self.arr[i].prio = new_prio
+        
+        if found_i == -1:
+            print("\tNode val not in heap!")
+            return
+        
+        old_prio = self.arr[found_i].prio
+        self.arr[found_i].prio = new_prio
+#         print(f"\t\t\tPRIO: {old_prio} --> {self.arr[found_i].prio}")
         if old_prio > new_prio:
-            self.bubble_up(i)
+            self.bubble_up(found_i)
         else:
-            self.bubble_down(i)
+            self.bubble_down(found_i)
+#         print(f"\t\t\t{self.peek()}")
         
 chiton('sample.txt')
 
