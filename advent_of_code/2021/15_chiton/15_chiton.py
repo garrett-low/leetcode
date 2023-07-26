@@ -29,37 +29,30 @@ def chiton(filename):
             
     end_row = len(chiton_map) - 1
     end_col = len(chiton_map[0]) - 1
-#     print(unvisited_min_heap)
     
     while not unvisited_min_heap.is_empty():
         curr = unvisited_min_heap.remove()
-#         print(f"VISIT: {curr}")
     
         for dirs_tuple in NEIGHBOR_DIRS:
             neighbor_row = dirs_tuple[0] + curr[0]
             neighbor_col = dirs_tuple[1] + curr[1]
             neighbor_tuple = (neighbor_row, neighbor_col)
-#             print(f"\tCHECK: {neighbor_tuple}")
             if neighbor_col > end_col or neighbor_col < 0:
-#                 print(f"\t\tOUTSIDE COL")
                 continue
             if neighbor_row > end_row or neighbor_row < 0:
-#                 print(f"\t\tOUTSIDE ROW")
                 continue
             
             test_dist = dist_dict[curr] + chiton_map[neighbor_row][neighbor_col]
             if test_dist < dist_dict[neighbor_tuple]:
-#                 print(f"\tUPDATE shortest path --> {neighbor_tuple}: {test_dist}")
                 dist_dict[neighbor_tuple] = test_dist
                 prev_dict[neighbor_tuple] = curr
                 unvisited_min_heap.update(neighbor_tuple, test_dist)
-#         print(unvisited_min_heap)
-    
+                
     output_path = deque((end_row, end_col))
     output_risk = dist_dict[(end_row, end_col)] # start with penultimate risk
     curr_pos = prev_dict[(end_row, end_col)]
     while curr_pos != None:
-        print(curr_pos)
+#         print(curr_pos)
         output_path.appendleft(curr_pos)
 #         output_risk += dist_dict[curr_pos]
         curr_pos = prev_dict[curr_pos]
@@ -101,23 +94,17 @@ class min_heap:
     
     def bubble_up(self, curr_idx):
         if curr_idx <= 0:
-            print()
             return
-#         print("bubb...", end='')
         par_idx = min_heap.get_parent(curr_idx)
 
         parent = self.arr[par_idx]
         curr = self.arr[curr_idx]
-#         print(f"{parent}, {curr}", end='')
         if parent.prio <= curr.prio:
-            print()
             return
-#         print("bubbling...", end='')
+        
         self.arr[curr_idx] = parent
         self.arr[par_idx] = curr
-#             print("bubble_up")
         self.bubble_up(par_idx)
-        print()
         return
     
     def remove(self):
@@ -193,33 +180,10 @@ class min_heap:
         
         old_prio = self.arr[found_i].prio
         self.arr[found_i].prio = new_prio
-#         print(f"\t\t\tPRIO: {old_prio} --> {self.arr[found_i].prio}")
         if old_prio > new_prio:
             self.bubble_up(found_i)
         else:
             self.bubble_down(found_i)
-#         print(f"\t\t\t{self.peek()}")
         
 chiton('sample.txt')
-
-# heap = min_heap()
-# heap.add(13, "thirteen")
-# heap.add(5, "five")
-# heap.add(25, "twenty-five")
-# heap.add(12, "twelve")
-# heap.add(1, "one")
-# print(heap)
-# heap.update("five", 55)
-# print(heap)
-# print(heap.remove())
-# print(heap)
-# print(heap.remove())
-# print(heap)
-# print(heap.remove())
-# print(heap)
-# print(heap.remove())
-# print(heap)
-# print(heap.remove())
-# print(heap)
-# print(heap.remove())
-# print(heap)
+chiton('input.txt')
