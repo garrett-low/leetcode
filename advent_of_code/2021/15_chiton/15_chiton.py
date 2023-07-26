@@ -67,24 +67,32 @@ def multiply_map(chiton_map):
     num_cols = len(chiton_map[0])
     for horizontal_step_i in range(4):
         for row_i in range(num_rows):
+            tiled_cols = []
             for col_i in range(num_cols * horizontal_step_i, num_cols * (horizontal_step_i + 1)):
                 tiled_val = str((int(chiton_map[row_i][col_i]) % 9) + 1)
                 chiton_map[row_i] += tiled_val
+                tiled_cols.append(tiled_val)
+#             chiton_map[row_i] += ''.join(tiled_cols)
 #     debug_print_map(chiton_map, num_cols)
     
     for vertical_step_i in range(4):
         for row_i in range(num_rows * vertical_step_i, num_rows * (vertical_step_i + 1)):
-            tiled_row = ""
+#             tiled_row = ""
+            tiled_row = []
             for col_i in range(num_cols):
                 tiled_val = str((int(chiton_map[row_i][col_i]) % 9) + 1)
-                tiled_row += tiled_val
+#                 tiled_row += tiled_val
+                tiled_row.append(tiled_val)
             chiton_map.append(tiled_row)
-        
+#         debug_print_map(chiton_map, num_cols)
         for horizontal_step_i in range(4):
             for row_i in range(num_rows * (vertical_step_i + 1), num_rows * (vertical_step_i + 2)):
+                tiled_cols = []
                 for col_i in range(num_cols * horizontal_step_i, num_cols * (horizontal_step_i + 1)):
                     tiled_val = str((int(chiton_map[row_i][col_i]) % 9) + 1)
-                    chiton_map[row_i] += tiled_val
+                    tiled_cols.append(tiled_val)
+#                     chiton_map[row_i] += tiled_val
+                chiton_map[row_i].extend(tiled_cols)
 #     debug_print_map(chiton_map, num_cols)
 
 def debug_print_map(chiton_map, num_cols):
@@ -235,8 +243,8 @@ class min_heap:
         else:
             self.bubble_down(found_i)
         
-# chiton('sample.txt')
-# chiton('input.txt')
+chiton('sample.txt')
+chiton('input.txt')
 
-# chiton('sample.txt', True)
+chiton('sample.txt', True)
 chiton('input.txt', True)
