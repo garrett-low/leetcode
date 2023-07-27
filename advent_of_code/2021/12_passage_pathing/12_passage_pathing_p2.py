@@ -19,7 +19,7 @@ def dfs(filename):
     
     visited = {}
     path = []
-    count = dfs_inner(adj, 'start', 'end', path, visited)
+    count = dfs_inner(adj, 'start', 'end', path, visited, False)
     print(count)
 #     print(path)
     
@@ -35,12 +35,15 @@ def dfs(filename):
 #                 visited.add(neighbor)
 #                 stack.append(neighbor)
 
-def dfs_inner(adj, curr, end_val, path, visited):
+def dfs_inner(adj, curr, end_val, path, visited, has_visited_small_twice):
     count_path = 0
     if curr in visited and visited[curr] == 2:
-        return count_path
+#         has_visited_small_twice = True
+        return count_path, True
+    if has_visited_small_twice and curr in visited:
+        return count_path, True
     if curr in visited and (curr == 'start' or curr == 'end'):
-        return count_path
+        return count_path, has_visited_small_twice
 
     if curr.islower():
         if curr not in visited:
@@ -56,16 +59,18 @@ def dfs_inner(adj, curr, end_val, path, visited):
 
     for neighbor in adj[curr]:
 #         print(f"\tNEIGHBOR: {neighbor}")
-        count_path += dfs_inner(adj, neighbor, end_val, path, visited)
+        temp_count_path, has_visited_small_twice = dfs_inner(adj, neighbor, end_val, path, visited, has_visited_small_twice)
+        count_path += temp_count_path
     
     if curr.islower():
         if visited[curr] > 1:
             visited[curr] -= 1
         else:
             visited.pop(curr)
+#             has_visited_small_twice = False
     
     path.pop()
-    return count_path
+    return count_path, has_visited_small_twice
 
 dfs('sample.txt')
 # dfs('sample2.txt')
