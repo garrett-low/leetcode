@@ -35,15 +35,15 @@ def dfs(filename):
 #                 visited.add(neighbor)
 #                 stack.append(neighbor)
 
-def dfs_inner(adj, curr, end_val, path, visited, has_visited_small_twice):
+def dfs_inner(adj, curr, end_val, path, visited, has_visited_small_twice, small_cave_twice_visited = ""):
     count_path = 0
     if curr in visited and visited[curr] == 2:
 #         has_visited_small_twice = True
-        return count_path, True
+        return count_path, True, curr
     if has_visited_small_twice and curr in visited:
-        return count_path, True
+        return count_path, has_visited_small_twice, small_cave_twice_visited
     if curr in visited and (curr == 'start' or curr == 'end'):
-        return count_path, has_visited_small_twice
+        return count_path, has_visited_small_twice, small_cave_twice_visited
 
     if curr.islower():
         if curr not in visited:
@@ -54,12 +54,12 @@ def dfs_inner(adj, curr, end_val, path, visited, has_visited_small_twice):
 #     print(f"VISITING: {curr}, {visited}, {path}")
     
     if curr == end_val:
-        print(path)
+#         print(path)
         count_path += 1
 
     for neighbor in adj[curr]:
 #         print(f"\tNEIGHBOR: {neighbor}")
-        temp_count_path, has_visited_small_twice = dfs_inner(adj, neighbor, end_val, path, visited, has_visited_small_twice)
+        temp_count_path, has_visited_small_twice, small_cave_twice_visited = dfs_inner(adj, neighbor, end_val, path, visited, has_visited_small_twice, small_cave_twice_visited)
         count_path += temp_count_path
     
     if curr.islower():
@@ -67,12 +67,14 @@ def dfs_inner(adj, curr, end_val, path, visited, has_visited_small_twice):
             visited[curr] -= 1
         else:
             visited.pop(curr)
-#             has_visited_small_twice = False
+        if curr == small_cave_twice_visited:
+            has_visited_small_twice = False
+            small_cave_twice_visited = ""
     
     path.pop()
-    return count_path, has_visited_small_twice
+    return count_path, has_visited_small_twice, small_cave_twice_visited
 
 dfs('sample.txt')
-# dfs('sample2.txt')
-# dfs('sample3.txt')
-# dfs('input.txt')
+dfs('sample2.txt')
+dfs('sample3.txt')
+dfs('input.txt')
