@@ -28,13 +28,10 @@ two_sum('input.txt')
 
 # assuming no duplicates in input...
 def three_sum(filename):
-    int_list = []
     int_set = set()
     with open(filename, 'rt', encoding = 'utf-8') as file:
         for line in file:
-            # int_list.append[int(line.strip())]
             int_set.add(int(line.strip()))
-    # print(int_set)
     
     is_found = False
     for first_int in int_set:
@@ -53,25 +50,6 @@ def three_sum(filename):
         print(f"FOUND: {first_int} * {second_int} * {test_remainder} = {first_int * second_int * test_remainder}")
     else:
         print("DID NOT FIND PAIR THAT SUMS TO 2020!")
-    
-    
-    
-    # complement_set = set()
-    # is_found = False
-    # for i in range(len(int_list)):
-        # int_i = int_list[i]
-        # complement_int_i = TARGET_SUM - int_i
-        # for j in range(len(int_list)):
-            # if i == j:
-                # continue
-            
-            # int_j = int_list[j]
-            # complement_int_j = complement_int_i - int_j
-            # if complement_int_j in complement_set:
-                # is_found = True
-                # break;
-            # else:
-                # complement_set.add(
 
 print("PART TWO")
 three_sum('sample.txt')
