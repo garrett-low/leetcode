@@ -11,7 +11,7 @@ def even_inner(src_arr, i):
     if i >= len(src_arr):
         return []
     if src_arr[i] % 2 == 0:
-        return [src_arr[i]]
+        out_arr.append(src_arr[i])
     
     return out_arr + even_inner(src_arr, i + 1)
 
