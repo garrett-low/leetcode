@@ -9,8 +9,11 @@ def qs(arr, nth_highest, low, high):
     pivot_i = partition(arr, low, high)
     if pivot_i == nth_highest:
         return arr[pivot_i]
-    
-        
+    elif nth_highest > pivot_i:
+        return qs(arr, nth_highest, pivot_i + 1, high)
+    else:
+        return qs(arr, nth_highest, low, pivot_i - 1)
+
 def partition(arr, low, high):
     pivot_val = arr[high]
     
@@ -26,3 +29,9 @@ def partition(arr, low, high):
     arr[high] = arr[pivot_i]
     arr[pivot_i] = pivot_val
     return pivot_i
+
+quick_select([1, 2, 3, 4, 5, 6, 7, 8, 9], 3)
+quick_select([9, 8, 7, 6, 5, 4, 3, 2, 1], 3)
+quick_select([3, 7, 8, 2, 4, 9, 1, 5, 6], 3)
+quick_select([3, 7, 8, 2, 4, 9, 1, 5, 6], 0)
+quick_select([3, 7, 8, 2, 4, 9, 1, 5, 6], 8)
