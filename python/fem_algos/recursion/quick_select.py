@@ -6,7 +6,11 @@ def quick_select(arr, nth_highest):
     print(nth_value)
 
 def qs(arr, nth_highest, low, high):
+    if high <= low:
+        return arr[low]
+        
     pivot_i = partition(arr, low, high)
+    
     if pivot_i == nth_highest:
         return arr[pivot_i]
     elif nth_highest > pivot_i:
