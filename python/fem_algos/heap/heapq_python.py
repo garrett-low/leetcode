@@ -1,0 +1,27 @@
+# python heapq library testing
+import heapq
+
+heaparr = [9, 1, 3, 5, 7, 2, 6, 8, 0, 4]
+print(heaparr)
+heapq.heapify(heaparr)
+print(heaparr)
+print(heapq.heappop(heaparr))
+print(heaparr)
+print(heapq.heappush(heaparr, 99))
+print(heaparr)
+print(heapq.heappop(heaparr))
+print(heaparr)
+print(heapq.heappop(heaparr))
+print(heaparr)
+print(heapq.heappop(heaparr))
+print(heaparr)
+print(heapq.heappop(heaparr))
+print(heaparr)
+print(heapq.heappop(heaparr))
+print(heaparr)
+print(heapq.heappop(heaparr))
+print(heaparr)
+print(heapq.heappop(heaparr))
+print(heaparr)
+print(heapq.heappush(heaparr, 1))
+print(heaparr)
