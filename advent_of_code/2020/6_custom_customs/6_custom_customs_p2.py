@@ -4,9 +4,7 @@ def count_answers(filename):
         curr_group_answer_list = []
         for line in file:
             if line == '\n':
-                # print(curr_group_answer_list)
                 count_answer = check_same_answer(curr_group_answer_list)
-                # print(count_answer)
                 yes_count += count_answer
                 curr_group_answer_list = []
                 continue
@@ -25,6 +23,8 @@ def check_same_answer(curr_group_answer_list):
     if len(curr_group_answer_list) == 1:
         return len(first_person_answer_set)
     
+    # intentionally not using set.intersection built in because
+    # I'll probably forget the syntax
     for i in range(1, len(curr_group_answer_list)):
         curr_answer_set = curr_group_answer_list[i]
         set_intersect = set()
@@ -48,4 +48,4 @@ def check_same_answer(curr_group_answer_list):
     return len(set_intersect)
 
 count_answers('sample2.txt')
-count_answers('input.txt') # p1 6735
+count_answers('input.txt') #p2 3221
