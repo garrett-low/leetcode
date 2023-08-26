@@ -30,7 +30,7 @@ def acc_before_infinite(filename):
     print(f"P1 acc before first repeat: {acc}")
     
 acc_before_infinite('sample.txt')
-acc_before_infinite('input.txt')
+acc_before_infinite('input.txt') # p1 answer 1915
 
 # def test():
     # print(int('+4'))
@@ -38,3 +38,4 @@ acc_before_infinite('input.txt')
     # test_dict = defaultdict(int)
     # print(test_dict[0])
 # test()
+
