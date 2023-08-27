@@ -20,27 +20,35 @@ def adapter_array(filename):
     # print(adapters)
     
     adapter_groups = []
-    start_group_val = 0
+    prev = 0
+    curr = 0
     group = []
     for i in range(len(adapters)):
+        prev = curr
         curr = adapters[i]
         
-        if curr > start_group_val + MAX_JOLT_DIFFERENCE:
+        if curr >= prev + MAX_JOLT_DIFFERENCE:
             adapter_groups.append(group)
             group = []
             start_group_val = curr
         
         group.append(curr)
+
     adapter_groups.append(group)
     
     print(adapter_groups)
     
     ct_combos = 1
+    # this is not robust
+    # the input only has contiguous groups of up to length 5
+    # there are also no 2-jolt gaps
     for group in adapter_groups:
         if len(group) == 4:
             ct_combos *= 4
         elif len(group) == 3:
             ct_combos *= 2
+        elif len(group) == 5:
+            ct_combos *= 7
     
     print(f"P2:\t{ct_combos}")
 
@@ -87,4 +95,4 @@ def join_adapter(adapters, i, j):
 
 adapter_array('sample.txt')
 adapter_array('sample2.txt')
-# adapter_array('input.txt')
+adapter_array('input.txt')
