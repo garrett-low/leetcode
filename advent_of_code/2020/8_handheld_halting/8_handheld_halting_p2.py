@@ -39,7 +39,7 @@ def handheld_halting_p2(filename):
     
     visited_set = set()
     path = []
-    is_finished, accumulator = exec_with_swap(op_list, visited_set, path, False, 0, 0)
+    is_finished, accumulator = exec_with_swap(op_list, visited_set, path, 0, False, 0)
     print(accumulator)
     
     # debug
@@ -50,7 +50,7 @@ def handheld_halting_p2(filename):
 def exec_with_swap(op_list, visited_set, path, step_i, has_swapped, accumulator):
     if step_i == len(op_list):
         # print(f"Fin:\t\t\t{accumulator}")
-        path.append((step_i, None, None, accumulator, ""))
+        path.append((step_i, None, None, accumulator, "-"))
         return True, accumulator
     
     if step_i in visited_set:
@@ -59,7 +59,7 @@ def exec_with_swap(op_list, visited_set, path, step_i, has_swapped, accumulator)
     visited_set.add(step_i)
     op, val = op_list[step_i]
     # print(f"{step_i}:\t{op}\t{val}\t{accumulator}")
-    path.append((step_i, op, val, accumulator, ""))
+    path.append((step_i, op, val, accumulator, "-"))
     new_step_i, new_accumulator = exec_op(op, val, step_i, accumulator)
     is_finished, final_accumulator = exec_with_swap(op_list, visited_set, path, new_step_i, has_swapped, new_accumulator)
     if is_finished:
