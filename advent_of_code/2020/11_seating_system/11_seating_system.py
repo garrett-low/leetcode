@@ -20,7 +20,7 @@ def seating_sys(filename):
     width = len(seatmap[0])
     
     has_changed = True
-    round_i = 0
+    # round_i = 0
     while has_changed:
         has_changed = False
         prev_seatmap = copy.deepcopy(seatmap)
@@ -47,6 +47,10 @@ def seating_sys(filename):
                     
                     if is_occupied(prev_seatmap, test_row, test_col):
                         count_adj_occupied += 1
+                    
+                    # we don't need to continue checking in this case
+                    if curr_is_occupied and count_adj_occupied >= 4:
+                        break
                 
                 if curr_is_occupied and count_adj_occupied >= 4:
                     seatmap[row_i][col_i] = 'L'
@@ -58,7 +62,7 @@ def seating_sys(filename):
                     has_changed = True
                     continue
         
-        round_i += 1
+        # round_i += 1
         # print(f"~\t{round_i}\t~")
         # printdebug(seatmap)
     
