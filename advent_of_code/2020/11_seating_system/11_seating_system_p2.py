@@ -56,7 +56,6 @@ def seating_sys(filename):
                 if not curr_is_occupied and count_adj_occupied == 0:
                     seatmap[row_i][col_i] = '#'
                     has_changed = True
-                    continue
         
         # round_i += 1
         # print(f"~\t{round_i}\t~")
@@ -69,7 +68,7 @@ def seating_sys(filename):
             if seatmap[row][col] == '#':
                 count_occupied += 1
     
-    print(f"P1:\t{count_occupied}")
+    print(f"P2:\t{count_occupied}")
 
 def is_occupied(seatmap, row, col, row_diff, col_diff):
     test_row = row + row_diff
@@ -96,7 +95,7 @@ def printdebug(seatmap):
         print()
 
 seating_sys('sample.txt')
-# seating_sys('input.txt')
+seating_sys('input.txt')
 
 # P1 answer is 2476
 # P2 sample: 26
