@@ -2,6 +2,8 @@ class node:
     def __init__(self, val, nxt = None):
         self.val = val
         self.nxt = nxt
+    def __str__(self):
+        return f"[{self.val}]"
 
 class linked_list:
     def __init__(self):
@@ -61,6 +63,24 @@ class linked_list:
         
         after_node = curr.nxt.nxt
         curr.nxt = after_node
+    
+    def reverse_me(self):
+        if self.head == None:
+            return
+        
+        if self.head.nxt == None:
+            return
+        
+        prev = None
+        curr = self.head
+        while curr:
+            temp_nxt = curr.nxt
+            curr.nxt = prev
+            
+            prev = curr
+            curr = temp_nxt
+        
+        self.head = prev
 
 test = linked_list()
 test.append(69)
@@ -80,4 +100,7 @@ print(test)
 test.delete_i(1)
 print(test)
 test.delete_i(3)
+print(test)
+print("REVERSE ME")
+test.reverse_me()
 print(test)
