@@ -1,3 +1,11 @@
 - Practice Python by implementing ADTs, basic algorithms
 - Practice problems
 - ???
+
+- [ ] Prim's
+- [ ] Kruskal's
+- [ ] Coin change problem
+- [ ] Maximum subarray
+- [ ] Crystal ball
+- [ ] AVL
+- [ ] Red black
