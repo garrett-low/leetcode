@@ -29,7 +29,7 @@ def k_radi_avg(nums, k):
             # continue
         
         left_sum = 0
-        if i - k - 1 > 0:
+        if i - k > 0:
             left_sum = prefix[i - k - 1]
         curr_sum = prefix[i + k] - left_sum
         curr_avg = curr_sum // (2 * k + 1)
