@@ -46,7 +46,7 @@ def bfs(matrix, val):
 def main():
     matrix1 = matrix('input.txt')
     print(matrix1)
-    print(dfs(matrix1, 4))
+    print(bfs(matrix1, 4))
 #     matrix2 = matrix('input2.txt')
 #     print(matrix2)
 #     print(dfs(matrix2, 4))

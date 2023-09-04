@@ -1,28 +1,36 @@
-def dfs(graph, start, end):
-    out_path = []
-    seen = set()
-    dfs_inner(graph, start, end, seen, out_path)
-    print(out_path)
-    return out_path
+from collections import deque
 
-def dfs_inner(graph, curr, end, seen, out_path):
-    if curr in seen:
-        return False
+def bfs(graph, start, end):
+    prev = {}
+    seen = set(start)
+    prev[start] = None
     
-    out_path.append(curr)
-    seen.add(curr)
+    queue = deque(start)
+    while len(queue) > 0:
+        curr = queue.popleft()
+        
+        neighbors = graph.adj_list[curr]
+        for neighbor in neighbors:
+            if neighbor in seen:
+                continue
+            
+            queue.append(neighbor)
+            seen.add(neighbor)
+            prev[neighbor] = curr
     
-    if curr == end:
-        return True
+    if not prev[end]:
+        print([])
+        return
     
-    neighbors = graph.adj_list[curr]
-    for neighbor in neighbors:
-        if dfs_inner(graph, neighbor, end, seen, out_path):
-            return True
+    output_path = deque(end)
+    curr = prev[end]
+    while curr:
+        output_path.appendleft(curr)
+        curr = prev[curr]
     
-    out_path.pop()
-    
-#adj list graph without weights     
+    print(output_path)
+    return
+
 class adj_list:
     def __init__(self, filename):
         # use dictionary for adjacency list
@@ -45,7 +53,7 @@ class adj_list:
 def main():
     matrix1 = adj_list('graph_dfs_input_adj_list.txt')
     print(matrix1)
-    dfs(matrix1, 'A', 'E')
+    bfs(matrix1, 'A', 'E')
     
 if __name__ == "__main__":
     main()
