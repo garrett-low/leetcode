@@ -10,8 +10,10 @@ def subary_sum(nums, k):
     for num in nums:
         curr_sum += num
         output += count_sums[curr_sum - k]
+        print(f"{curr_sum}, {output}")
         count_sums[curr_sum] += 1
     
+    print(count_sums)
     print(output)
     return output
 
