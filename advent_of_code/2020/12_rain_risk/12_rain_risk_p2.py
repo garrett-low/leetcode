@@ -36,7 +36,7 @@ def rain_risk(filename):
                 way_rel_pos = way_rel_pos_row, way_rel_pos_col
                 # print(f'  Rotated waypoint to {way_rel_pos}')
             
-            if action == 'N' or action == 'E' or action == 'S' or action == 'W':
+            elif action == 'N' or action == 'E' or action == 'S' or action == 'W':
                 if action == 'N':
                     way_rel_pos_row -= value
                 elif action == 'E':
@@ -49,7 +49,7 @@ def rain_risk(filename):
                 way_rel_pos = way_rel_pos_row, way_rel_pos_col
                 # print(f'  Relative waypoint: {way_rel_pos}')
             
-            if action == 'F':
+            elif action == 'F':
                 # print(f'  Moving from {curr_pos} to {way_rel_pos} x {value}')
                 curr_row += way_rel_pos_row * value
                 curr_col += way_rel_pos_col * value
