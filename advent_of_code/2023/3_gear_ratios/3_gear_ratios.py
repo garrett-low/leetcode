@@ -11,8 +11,6 @@ DIRS = [
 
 WALL_CHAR = '.'
 
-# VISITED_SET = set()
-
 def gear(filename):
     grid = []
     with open(filename, 'rt') as file:
@@ -51,17 +49,13 @@ def seek_num(grid, i, j, visited_set, has_adj_symbol = False):
     grid_height = len(grid)
     # print(grid_width, grid_height)
     if (i, j) in visited_set:
-        # print("2")
         return False, has_adj_symbol, (i, j)
     if i < 0 or i > (grid_height - 1):
-        # print("3")
         return False, has_adj_symbol, (i, j)
     if j < 0 or j > (grid_width - 1):
-        # print("4")
         return False, has_adj_symbol, (i, j)
     char = grid[i][j]
     if not char.isdecimal():
-        # print("1")
         return False, has_adj_symbol, (i, j)
     
     visited_set.add((i, j))
