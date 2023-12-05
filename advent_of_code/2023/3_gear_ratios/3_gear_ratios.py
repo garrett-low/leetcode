@@ -1,5 +1,5 @@
 DIRS = [
-    (-1, -1) # top-left
+    (-1, -1), # top-left
     (-1, 0), # top
     (-1, 1), # top-right
     (1, -1), # bot-left
@@ -11,11 +11,7 @@ DIRS = [
 
 WALL_CHAR = '.'
 
-GRID_WIDTH = 0
-GRID_HEIGHT = 0
-
-VISITED_SET = set()
-PART_NUMS = []
+# VISITED_SET = set()
 
 def gear(filename):
     grid = []
@@ -24,47 +20,87 @@ def gear(filename):
             line = line.strip()
             grid.append(line)
     
-    print(grid)
+    grid_width = len(grid[0])
+    grid_height = len(grid)
+    # print(grid)
+    # print(f"{grid_width} {grid_height}")
     
-    GRID_WIDTH = len(grid[0])
-    GRID_HEIGHT = len(grid)
-    
-    # seen_coord_set = set()
-    # seen_val_set = set()
+    visited_set = set()
+    valid_part_nums = []
     
     for row_idx, row in enumerate(grid):
         for col_idx, char in enumerate(row):
-            if char.isalnum() or char == WALL_CHAR:
-                continue
-            
-            adj_nums = find_adj_nums(grid, (row_idx, col_idx))
-            
+            start_tuple = (row_idx, col_idx)
+            is_num, has_adj_symbol, end_tuple = seek_num(grid, row_idx, col_idx, visited_set, False)
+            # print(start_tuple, has_adj_symbol, end_tuple)
+            if has_adj_symbol:
+                val = int(grid[row_idx][col_idx : end_tuple[1]])
+                valid_part_nums.append(val)
+    
+    # print(valid_part_nums)
+    sum = 0
+    for val in valid_part_nums:
+        sum += val
+        print(val)
+    
+    print(sum)
 
-def find_adj_nums(grid, coord_tuple):
-    row_idx, col_idx = coord_tuple
+def seek_num(grid, i, j, visited_set, has_adj_symbol = False):
+    # print(f"{char} [{i}][{j}]")
+    grid_width = len(grid[0])
+    grid_height = len(grid)
+    # print(grid_width, grid_height)
+    if (i, j) in visited_set:
+        # print("2")
+        return False, has_adj_symbol, (i, j)
+    if i < 0 or i > (grid_height - 1):
+        # print("3")
+        return False, has_adj_symbol, (i, j)
+    if j < 0 or j > (grid_width - 1):
+        # print("4")
+        return False, has_adj_symbol, (i, j)
+    char = grid[i][j]
+    if not char.isdecimal():
+        # print("1")
+        return False, has_adj_symbol, (i, j)
     
-    for dir_tuple in DIRS:
-        test_coord_tuple = (row_idx + dir_tuple[0], col_idx + dir_tuple[1])
-        is_test_coord_numeric = check_adjacent(grid, test_coord_tuple)
-        
-        if is_test_coord_numeric:
-            seek_num(grid, test_coord_tuple[0], test_coord_tuple[1])
-        
-def check_adjacent(grid, test_coord_tuple):
-    i, j = test_coord_tuple
+    visited_set.add((i, j))
     
-    if i < 0 or i > GRID_HEIGHT - 1:
+    if not has_adj_symbol:
+        for dir_tuple in DIRS:
+            test_i = i + dir_tuple[0]
+            test_j = j + dir_tuple[1]
+            # print(test_i, test_j)
+            has_adj_symbol = check_adjacent(grid, test_i, test_j)
+            if has_adj_symbol:
+                break
+    
+    is_num = True
+    while is_num:
+        is_num, has_adj_symbol, end_tuple = seek_num(grid, i, j + 1, visited_set, has_adj_symbol)
+        
+    return is_num, has_adj_symbol, end_tuple
+
+def check_adjacent(grid, i, j):
+    grid_width = len(grid[0])
+    grid_height = len(grid)
+    if i < 0 or i >  grid_height - 1:
+        return False
+    if j < 0 or j > grid_height - 1:
         return False
     
-    if j < 0 or j > GRID_WIDTH - 1:
-        return False
+    char = grid[i][j]
     
-    test_char = grid[i][j]
-    
-    if test_char.isdecimal():
+    if not char.isalnum() and char != WALL_CHAR:
+        # print(f"{i}, {j}")
         return True
-
-def seek_num(grid, i, j):
-    
+        
+    return False
 
 gear('sample.txt')
+gear('input.txt')
+
+# 527987: first attempt, too low
+# 528819: removing random global variables that are poor style,
+#   but also apparently have a functional impact - 
+#   no other changes
