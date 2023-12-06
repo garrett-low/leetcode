@@ -39,7 +39,7 @@ def gear(filename):
     sum = 0
     for val in valid_part_nums:
         sum += val
-        print(val)
+        # print(val)
     
     print(sum)
 
