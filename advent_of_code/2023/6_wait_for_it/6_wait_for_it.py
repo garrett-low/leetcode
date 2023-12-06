@@ -1,3 +1,5 @@
+import math
+
 def boat_race(filename):
     races = {}
     with open(filename, 'rt') as file:
@@ -59,16 +61,17 @@ def p2(filename):
     time = int(concat_time)
     exp_dist = int(concat_dist)
     
-    lower_hold_button_win = 0
-    for i in range(time + 1):
-        speed = i
-        time_remaining = time - i
-        my_dist = speed * time_remaining
+    lower_hold_button_win = (exp_dist // time) + 1
+    print(lower_hold_button_win)
+    # for i in range(time + 1):
+        # speed = i
+        # time_remaining = time - i
+        # my_dist = speed * time_remaining
         
-        if my_dist > exp_dist:
-            break
+        # if my_dist > exp_dist:
+            # break
         
-        lower_hold_button_win += 1
+        # lower_hold_button_win += 1
     
     upper_hold_button_win = time - lower_hold_button_win
     ways_to_win = upper_hold_button_win - lower_hold_button_win + 1
