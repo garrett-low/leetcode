@@ -1,6 +1,8 @@
-def seeds(filename):
+import sys
+
+def seeds(filename, is_part_two = False):
     # array of 3 number tuples
-    seeds = []
+    seeds_raw = []
     maps = []
     seed_soil = []
     soil_fert = []
@@ -12,7 +14,7 @@ def seeds(filename):
     maps_i = 0
     with open(filename, 'rt') as file:
         seed_string = file.readline()
-        seeds = [int(x) for x in seed_string.strip().split(':')[1].split()]
+        seeds_raw = [int(x) for x in seed_string.strip().split(':')[1].split()]
         
         contents = file.read()
         contents = contents.strip()
@@ -37,6 +39,12 @@ def seeds(filename):
     source_starts_ordered = [] # list of ordered list of source starts
     source_arr_of_dicts = [] # list of dicts src start -> (range length, dest start)
     
+    seeds = []
+    if not is_part_two:
+        seeds = seeds_raw
+    
+    print(seeds_raw)
+        
     # Structure data for P1 solving
     # Yes, this could have be done during the file reading
     # But maybe it will change for P2
@@ -56,16 +64,40 @@ def seeds(filename):
     
     for source_start_arr in source_starts_ordered:
         q_sort(source_start_arr)
-        
-    # process(79, source_starts_ordered, source_arr_of_dicts)
-    location_arr = []
-    for seed in seeds:
-        location_num = process(seed, source_starts_ordered, source_arr_of_dicts)
-        # print(location_num)
-        location_arr.append(location_num)
     
-    q_sort(location_arr)
-    print(location_arr[0])
+    # process(79, source_starts_ordered, source_arr_of_dicts)
+    # location_arr = []
+    min_location = sys.maxsize
+    if not is_part_two:
+        for seed in seeds:
+            location_num = process(seed, source_starts_ordered, source_arr_of_dicts)
+            # print(location_num)
+            # location_arr.append(location_num)
+            if location_num < min_location:
+                min_location = location_num
+    else:
+        for i in range(len(seeds_raw)):
+            print(".", end='')
+            if i % 2 == 1:
+                start = seeds_raw[i - 1]
+                stop = seeds_raw[i - 1] + seeds_raw[i]
+                
+                seed_cnt = 0
+                for seed in range(start, stop):
+                    location_num = process(seed, source_starts_ordered, source_arr_of_dicts)
+                    if location_num < min_location:
+                        min_location = location_num
+                    
+#                     seed_cnt += 1
+#                     if seed_cnt % 1000000:
+#                         print(".", end='')
+            
+                print(f"{100 * float(i) / float(len(seeds_raw)):.2f}%", end='')
+        
+    # q_sort(location_arr)
+    # print(location_arr[0])
+    print()
+    print(min_location)
     
 def process(seed, source_starts_ordered, source_arr_of_dicts):
     curr_val = seed
@@ -127,8 +159,11 @@ def partition(arr, lo, hi):
     
     return pivot_i
 
-seeds('sample.txt')
-seeds('input.txt') # 662197086
+# seeds('sample.txt')
+# seeds('input.txt') # P1: 662197086
 
 # q_sort([69, 350, 420, 10, 9, 5, 8])
 # q_sort([69, 350, 420, 10, 5, 8])
+
+seeds('sample.txt', True)
+# seeds('input.txt', True)
