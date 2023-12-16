@@ -12,7 +12,7 @@ HAND_TYPE = {
     "high_card" : 1 }
 
 FACE_VAL = {
-    "A" : 1,
+    "A" : 14,
     "K" : 13,
     "Q" : 12,
     "J" : 11,
@@ -146,3 +146,4 @@ def compare_hand_ordering(hand_tuple1, hand_tuple2):
 
 cards('sample.txt')
 cards('input.txt') # 250721888
+# Ace is high, not low 251029473
