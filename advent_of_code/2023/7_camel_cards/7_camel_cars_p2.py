@@ -43,6 +43,9 @@ def cards(filename):
         card_counts_reverse = {}
         hands_card_counts_reverse.append(card_counts_reverse)
         for card in card_counts:
+            if card == 'J':
+                continue # don't include wildcard in card counts
+            
             count = card_counts[card]
             if count in card_counts_reverse:
                 card_counts_reverse[count].append(card)
@@ -66,32 +69,43 @@ def cards(filename):
             hands_hand_type.append("five_kind")
             continue
         elif 4 in card_count_reverse:
-            if count_wildcard == 1:
+            if count_wildcard == 1: # AAAAJ
                 hands_hand_type.append("five_kind")
                 continue
-            hands_hand_type.append("four_kind")
-            continue
-        elif 3 in card_count_reverse:
-            if count_wildcard == 2:
-                hands_hand_type.append("five_kind")
-            elif count_wildcard == 1:
-                hands_hand_type.append("four_kind")
-            elif 2 in card_count_reverse:
-                hands_hand_type.append("full_house")
             else:
+                hands_hand_type.append("four_kind")
+                continue
+        elif 3 in card_count_reverse:
+            if count_wildcard == 2: # AAAJJ
+                hands_hand_type.append("five_kind")
+                continue
+            elif count_wildcard == 1: # AAAJ2
+                hands_hand_type.append("four_kind")
+                continue
+            elif 2 in card_count_reverse: # AAA22
+                hands_hand_type.append("full_house")
+                continue
+            else: # AAA23
                 hands_hand_type.append("three_kind")
-            continue
+                continue
         elif 2 in card_count_reverse:
             count_pairs = len(card_count_reverse[2])
-            if count_wildcard == 2:
+            if count_wildcard == 2: # AAJJ2
                 hands_hand_type.append("four_kind")
+                continue
             elif count_wildcard == 1:
-                hands_hand_type.append("three_kind")
-            elif count_pairs == 1:
+                if count_pairs == 2: # AAJ22
+                    hands_hand_type.append("full_house")
+                    continue
+                else: # AAJ23
+                    hands_hand_type.append("three_kind")
+                    continue
+            elif count_pairs == 1: # AA234
                 hands_hand_type.append("one_pair")
-            elif count_pairs == 2:
+                continue
+            elif count_pairs == 2: # AA223
                 hands_hand_type.append("two_pair")
-            continue
+                continue
         else:
             hands_hand_type.append("high_card")
     
@@ -161,4 +175,8 @@ def compare_hand_ordering(hand_tuple1, hand_tuple2):
 cards('sample.txt')
 cards('input.txt')
 
-#p2 first answer 249728394
+# p2 first answer 249728394
+# too low
+# 250077062 fixed some things in pair counting
+
+# 250829005 don't include J in card counts
