@@ -58,39 +58,67 @@ def haunted(filename):
     i = 0
     
     # P2 also build starting node (nodes that end in A)
-    curr_node_list = []
+    instr_length = len(instruct_string)
+    # curr_node_list = []
+    step_count_list = []
     for this_val in tree.lookup_dict:
         if this_val[2] != START_VAL:
             continue
         
-        curr_node_list.append(tree.lookup_dict[this_val][0])
-    
-    while True:
-        is_all_node_end = True
-        for curr_node in curr_node_list:
-            if curr_node.val[2] != END_VAL:
-                is_all_node_end = False
-                break
+        # curr_node_list.append(tree.lookup_dict[this_val][0])
         
-        if is_all_node_end:
-            break
+        curr_node = tree.lookup_dict[this_val][0]
+        i = 0
+        
+        while True:
+            # print(curr_node)
+            if curr_node.val[2] == END_VAL:
+                break
+                
+            instruction = instruct_string[i % instr_length]
+            
+            if instruction == 'L':
+                curr_node = curr_node.left
+            else:
+                curr_node = curr_node.right
+            
+            i += 1
+            
+        # print(i)
+        step_count_list.append(i)
+    
+    result = 1
+    for step_count in step_count_list:
+        result *= step_count
+    
+    print(result)
+    
+    # while True:
+        # is_all_node_end = True
+        # for curr_node in curr_node_list:
+            # if curr_node.val[2] != END_VAL:
+                # is_all_node_end = False
+                # break
+        
+        # if is_all_node_end:
+            # break
             
         # print(curr_node)
             
-        instruction = instruct_string[i % instr_length]
+        # instruction = instruct_string[i % instr_length]
         
-        new_node_list = []
-        for curr_node in curr_node_list:
-            if instruction == 'L':
-                new_node = curr_node.left
-            else:
-                new_node = curr_node.right
+        # new_node_list = []
+        # for curr_node in curr_node_list:
+            # if instruction == 'L':
+                # new_node = curr_node.left
+            # else:
+                # new_node = curr_node.right
             
-            new_node_list.append(new_node)
+            # new_node_list.append(new_node)
         
-        curr_node_list = new_node_list
-        i += 1
+        # curr_node_list = new_node_list
+        # i += 1
         
-    print(i)
+    # print(i)
 haunted('sample_p2.txt')
-haunted('input.txt')
+haunted('input.txt') # is this LCM? 49153966541198323241619811
