@@ -90,7 +90,10 @@ def cards(filename):
                 continue
         elif 2 in card_count_reverse:
             count_pairs = len(card_count_reverse[2])
-            if count_wildcard == 2: # AAJJ2
+            if count_wildcard == 3: # AAJJJ
+                hands_hand_type.append("five_kind")
+                continue
+            elif count_wildcard == 2: # AAJJ2
                 hands_hand_type.append("four_kind")
                 continue
             elif count_wildcard == 1:
@@ -107,7 +110,20 @@ def cards(filename):
                 hands_hand_type.append("two_pair")
                 continue
         else:
-            hands_hand_type.append("high_card")
+            if count_wildcard == 4:
+                hands_hand_type.append("five_kind")
+                continue
+            elif count_wildcard == 3:
+                hands_hand_type.append("four_kind")
+                continue
+            elif count_wildcard == 2:
+                hands_hand_type.append("three_kind")
+                continue
+            elif count_wildcard == 1:
+                hands_hand_type.append("one_pair")
+                continue
+            else:
+                hands_hand_type.append("high_card")
     
     # I just learned about named tuples
     hand_tuples = []
@@ -122,11 +138,11 @@ def cards(filename):
     hand_tuples_sorted = sorted(hand_tuples, key=cmp_to_key(compare_hand_types))
     score = 0
     for i, hand_tuple in enumerate(hand_tuples_sorted):
-        # print(hand_tuple)
+        print(hand_tuple)
         rank = i + 1
         bid = hand_tuple.hand_bid
         score += rank * bid
-        # print(f"{score} += {rank} * {bid}")
+        print(f"{score} += {rank} * {bid}")
     
     print(score)
 
@@ -172,11 +188,15 @@ def compare_hand_ordering(hand_tuple1, hand_tuple2):
     
     return 0
 
-cards('sample.txt')
-cards('input.txt')
+# cards('sample.txt')
+# cards('input.txt')
+cards('test.txt')
 
 # p2 first answer 249728394
 # too low
 # 250077062 fixed some things in pair counting
 
-# 250829005 don't include J in card counts
+# 250829005 don't include J in card counts - too low
+# 250690807 for AAJJJ
+
+# 251363551 - one high card fixes
