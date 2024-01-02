@@ -87,38 +87,33 @@ def haunted(filename):
         # print(i)
         step_count_list.append(i)
     
-    result = 1
-    for step_count in step_count_list:
-        result *= step_count
+    # result = 1
+    # for step_count in step_count_list:
+        # result *= step_count
+    # print(result)
     
-    print(result)
-    
-    # while True:
-        # is_all_node_end = True
-        # for curr_node in curr_node_list:
-            # if curr_node.val[2] != END_VAL:
-                # is_all_node_end = False
-                # break
-        
-        # if is_all_node_end:
-            # break
-            
-        # print(curr_node)
-            
-        # instruction = instruct_string[i % instr_length]
-        
-        # new_node_list = []
-        # for curr_node in curr_node_list:
-            # if instruction == 'L':
-                # new_node = curr_node.left
-            # else:
-                # new_node = curr_node.right
-            
-            # new_node_list.append(new_node)
-        
-        # curr_node_list = new_node_list
-        # i += 1
-        
-    # print(i)
+    lcm_result = lcm(step_count_list[0], step_count_list[1])
+    for i in range(2, len(step_count_list)):
+        # print(lcm_result)
+        lcm_result = lcm(lcm_result, step_count_list[i])
+    print(lcm_result)
+
+def gcd(num1, num2):
+    while num2 != 0:
+        temp = num2
+        num2 = num1 % num2
+        num1 = temp
+    return num1
+
+def lcm(num1, num2):
+    this_gcd = gcd(num1, num2)
+    return (num1 * num2) // this_gcd
+
 haunted('sample_p2.txt')
-haunted('input.txt') # is this LCM? 49153966541198323241619811
+haunted('input.txt') # is this LCM? 49153966541198323241619811 too high
+# attempt #2 with actually calculating LCM: 269024535019
+# attempt #3 18024643846273 with correct lcm_result
+# print(gcd(252, 105))
+# print(gcd(105, 252))
+# print(lcm(252, 105))
+# print(lcm(105, 252))
