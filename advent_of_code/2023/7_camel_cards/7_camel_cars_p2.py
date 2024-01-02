@@ -68,6 +68,9 @@ def cards(filename):
         if 5 in card_count_reverse:
             hands_hand_type.append("five_kind")
             continue
+        elif count_wildcard == 5:
+            hands_hand_type.append("five_kind")
+            continue
         elif 4 in card_count_reverse:
             if count_wildcard == 1: # AAAAJ
                 hands_hand_type.append("five_kind")
@@ -144,7 +147,7 @@ def cards(filename):
         score += rank * bid
         print(f"{score} += {rank} * {bid}")
     
-    print(score)
+    print(f"P2 answer: {score}")
 
 def compare_hand_types(hand_tuple1, hand_tuple2):
     type1 = hand_tuple1.hand_type
@@ -189,8 +192,9 @@ def compare_hand_ordering(hand_tuple1, hand_tuple2):
     return 0
 
 # cards('sample.txt')
-# cards('input.txt')
-cards('test.txt')
+cards('input.txt')
+# cards('test.txt')
+# cards('test2.txt')
 
 # p2 first answer 249728394
 # too low
@@ -200,3 +204,5 @@ cards('test.txt')
 # 250690807 for AAJJJ
 
 # 251363551 - one high card fixes
+
+# 251003917 - JJJJJ is five kind
