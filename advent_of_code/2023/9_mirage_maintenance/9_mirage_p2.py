@@ -13,7 +13,7 @@ def mirage(filename):
         first_val = recursive_find_first_val(history)
         first_val_list.append(first_val)
     # print(first_val_list)
-    # print(histories_list)
+    print(histories_list)
 
     sum = 0
     for first_val in first_val_list:
