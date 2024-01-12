@@ -1,3 +1,5 @@
+from collections import deque
+
 PIPE_DIR = { '-' :
             [(0, 1), # right
              (0, -1)], # left
@@ -8,9 +10,20 @@ PIPE_DIR = { '-' :
             [(1, 0), # down
              (0, -1)], # left
             'F' :
+            [(1, 0), # down
+             (0, 1)], # right
+            'L' :
             [(-1, 0), # up
-             (0, 1)] # right
+             (0, 1)], # right
+            'J' :
+            [(-1, 0), # up
+             (0, -1)], # left
             }
+START_DIRS = [
+        [-1, 0], # top
+        [0, 1], # right
+        [1, 0], # bot
+        [0, -1]] # left
 START = 'S'
 GROUND = '.'
 def pipes(filename):
@@ -28,8 +41,17 @@ def pipes(filename):
                 start = (i, j)
                 break
     print(start)
+    
+    path = []
+    visited_set = set()
+    length = 0
+    dfs(grid, start, visited_set, path, length)
+    print(path)
+    print(length)
 
-def dfs(grid, curr, visited_set, path):
+def dfs(grid, curr, visited_set, path, length):
+    if curr in visited_set:
+        return False
     # outside bounds
     if curr[0] < 0 or curr[0] >= len(grid):
         return False
@@ -37,21 +59,31 @@ def dfs(grid, curr, visited_set, path):
         return False
 
     val = grid[curr[0]][curr[1]]
-    if val == START: # seeking cycle; START is end
-        return True
     if val == GROUND:
         return False
 
-    if val not in PIPE_DIR:
+    if val not in PIPE_DIR and length != 0:
         print("This is impossible")
         return False
 
-    dirs = PIPE_DIR[val]
+    path.append(curr)
+    visited_set.add(curr)
+    print(f"{curr[0]}, {curr[1]}")
+    if val == START and length != 0: # seeking cycle; START is end
+        return True
 
-    for movetuple in dirs:
-        dest = (curr[0] + movetuple[0], curr[1] + movetuple[1])
-        if dfs(grid, dest, visited_set, path):
+    dirs = None
+    if val == START and length == 0:
+        dirs = START_DIRS
+    else:
+        dirs = PIPE_DIR[val]
+
+    for move_tuple in dirs:
+        dest = (curr[0] + move_tuple[0], curr[1] + move_tuple[1])
+        if dfs(grid, dest, visited_set, path, length):
+            length += 1
             return True
-
+    path.pop()
+    return False
 
 pipes('sample1.txt')
