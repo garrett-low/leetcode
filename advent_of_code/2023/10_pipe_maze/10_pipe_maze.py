@@ -68,9 +68,14 @@ def dfs(grid, curr, visited_set, path, length):
 
     path.append(curr)
     visited_set.add(curr)
-    print(f"{curr[0]}, {curr[1]}")
+    print(f"{curr[0]}, {curr[1]}, {val}")
     if val == START and length != 0: # seeking cycle; START is end
+        print(path)
+        print(length)
         return True
+    # if val == START and length == 0:
+    #     visited_set.remove(curr)
+    # length += 1
 
     dirs = None
     if val == START and length == 0:
@@ -83,7 +88,9 @@ def dfs(grid, curr, visited_set, path, length):
         if dfs(grid, dest, visited_set, path, length):
             length += 1
             return True
+    visited_set.remove(curr)
     path.pop()
+    length += 1
     return False
 
 pipes('sample1.txt')
