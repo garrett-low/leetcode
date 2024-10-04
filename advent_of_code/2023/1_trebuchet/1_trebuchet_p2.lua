@@ -1,3 +1,16 @@
+local lookup = {
+	["one"] = "1",
+	["two"] = "2",
+	["three"] = "3",
+	["four"] = "4",
+	["five"] = "5",
+	["six"] = "6",
+	["seven"] = "7",
+	["eight"] = "8",
+	["nine"] = "9",
+	["zero"] = "0",
+}
+
 function trebuchet(file)
 	local arr = {}
 	local handle = assert(io.open(file, "r"))
@@ -13,7 +26,7 @@ function trebuchet(file)
 	return arr
 end
 
-function part_one(file)
+function part_two(file)
 	local vals = {}
 	local input_lines = trebuchet(file)
 	for i = 1, #input_lines, 1 do
@@ -48,10 +61,8 @@ function part_one(file)
 		sum = sum + tonumber(val)
 	end
 
-	print("P1: " .. sum)
+	print("P2: " .. sum)
 	return sum
 end
 
--- trebuchet("sample.txt")
--- part_one("sample.txt")
-part_one("input.txt")
+part_two("input.txt")
