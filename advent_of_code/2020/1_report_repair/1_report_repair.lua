@@ -46,23 +46,12 @@ function report_repair_p2(file)
 	end
 	handle:close()
 
-	-- for key, val in pairs(arr) do
-	-- 	print(key, val)
-	-- end
-
-	-- return arr
-	-- local second_val = -1
-	-- local curr_val = -1
-	local first_remainder = -1
-	local second_remainder = -1
-	local is_found = false
-	local p2_sol = -1
+	local first_remainder
+	local second_remainder
+	local is_found
+	local p2_sol
 	for key, _ in pairs(arr) do
-		-- curr_val = key
-		-- first_remainder = TARGET_SUM - curr_val
 		first_remainder = TARGET_SUM - key
-		-- print("P2 first val: " .. key)
-		-- print("P2 first remainder: " .. first_remainder)
 
 		for second_key, _ in pairs(arr) do
 			if key == second_key then
@@ -73,11 +62,8 @@ function report_repair_p2(file)
 			if second_remainder < 0 then
 				goto continue
 			end
-			-- print("  P2 second val: " .. second_key)
-			-- print("  P2 second remainder: " .. second_remainder)
 			-- Forgot to convert the input
 			if arr[second_remainder] then
-				-- print("P2 found!")
 				is_found = true
 				p2_sol = key * second_key * second_remainder
 				break
@@ -92,7 +78,6 @@ function report_repair_p2(file)
 	end
 
 	if is_found then
-		-- local p2_sol = key * second_key * second_remainder
 		print("P2: " .. p2_sol)
 	else
 		print("P2 not found!")
