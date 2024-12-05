@@ -5,6 +5,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cmath>
+#include <unordered_map>
 
 int main(int argc, char** argv)
 {
@@ -79,6 +80,42 @@ int main(int argc, char** argv)
     }
     
     cout << "P1: " << sum << '\n';
+    
+    // P2
+    unordered_map<int, int> right_count;
+    for (int i = 0; i < list2.size(); i++)
+    {
+        int curr = list2[i];
+        // if (right_count.contains(curr))
+        // {
+            // // int count = right_count[curr];
+            // // right_count[curr] = count + 1;
+            // right_count[curr]++;
+        // }
+        // else
+        // {
+            // right_count[curr] = 1;
+        // }
+        right_count[curr]++;
+    }
+    
+    // for (const auto& [key, value] : right_count)
+    // {
+        // std::cout << key << ": " << value << std::endl;
+    // }
+    
+    int p2_score = 0;
+    // C++ you have to initialize
+    // cout << p2_score << '\n';
+    for (int i = 0; i < list1.size(); i++)
+    {
+        int curr = list1[i];
+        int count = right_count[curr];
+        p2_score += curr * count;
+        // cout << "curr: " << curr << ", count: " << count << ", p2: " << p2_score << '\n';
+    }
+    
+    cout << "P2: " << p2_score << '\n';
     
     return 0;
 }
