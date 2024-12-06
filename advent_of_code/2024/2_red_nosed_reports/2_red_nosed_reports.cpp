@@ -93,61 +93,59 @@ int main(int argc, char** argv)
 
 	cout << "P1: " << p1_safe_score << '\n';
 
-
 	int p2_safe_score = 0;
 	for (int i = 0; i < reports.size(); i++)
 	{
 		vector<int> report = reports[i];
 		bool is_safe = true;
-		int count_unsafe = 0;
-		bool is_decrease_first = false;
-		for (int j = 0; j < report.size() - 1; j++)
+		bool is_decreasing_first = false;
+		for (int l = 0, r = 1; r < report.size(); l++, r++)
 		{
-			// cout << "hello world: " << j << '\n';
-			int l = report[j];
-			int r = report[j + 1];
-			int diff = abs(l - r);
-			if (diff <= 0 || diff > 3)
+			int left = report[l];
+			int right = report[r];
+
+			int diff = abs(left - right);
+
+			if (diff < 1 || diff > 3)
 			{
-				cout << format("report {} is too different! {} {} ", i, l, r) << '\n';
-				count_unsafe++;
-				if (count_unsafe < 2)
+				// cout << format("report {} is too different! {} {} {} {}", i, l, r, left, right) << '\n';
+				if (r - l == 1)
 				{
+					l--;
 					continue;
 				}
+
+				cout << format("report {} is too different! {} {} {} {}", i, l, r, left, right) << '\n';
 				is_safe = false;
 				break;
 			}
 
-			bool is_decrease = l > r;
+			bool is_decreasing = left > right;
 
-			if (j == 0)
+			if (l == 0)
 			{
-				is_decrease_first = is_decrease;
+				is_decreasing_first = is_decreasing;
 				continue;
 			}
-			if (is_decrease_first != is_decrease)
+
+			if (is_decreasing_first != is_decreasing)
 			{
-				cout << format("report {} is not monotonic! {} {}", i, l, r) << '\n';
-				count_unsafe++;
-				if (count_unsafe < 2)
+				// cout << format("report {} is not monotonic! {} {} {} {}", i, l, r, left, right) << '\n';
+				if (r - l == 1)
 				{
+					l--;
 					continue;
 				}
+
+				cout << format("report {} is not monotonic! {} {} {} {}", i, l, r, left, right) << '\n';
 				is_safe = false;
 				break;
 			}
-
-			// if (count_unsafe > 1)
-			// {
-			// 	is_safe = false;
-			// 	break;
-			// }
 		}
 
 		if (is_safe)
 		{
-			cout << "report #: " << i << ", is_safe: " << is_safe << '\n';
+			// cout << "report #: " << i << ", is_safe: " << is_safe << '\n';
 			p2_safe_score++;
 		}
 	}
