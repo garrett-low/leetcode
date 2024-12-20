@@ -101,6 +101,8 @@ int main(int argc, char** argv)
 		vector<int> report = reports[i];
 		bool is_safe = true;
 		bool is_decreasing_first = false;
+		int skip_i = 0;
+		bool has_skipped = false;
 		for (int l = 0, r = 1; r < report.size(); l++, r++)
 		{
 			int left = report[l];
@@ -111,9 +113,18 @@ int main(int argc, char** argv)
 			if (diff < 1 || diff > 3)
 			{
 				// cout << format("report {} is too different! {} {} {} {}", i, l, r, left, right) << '\n';
-				if (r - l == 1)
+				if (!has_skipped)
 				{
-					l--;
+					skip_i = l;
+					has_skipped = true;
+					if (skip_i == 0)
+					{
+						continue;
+					}
+					else
+					{
+						l--;
+					}
 					continue;
 				}
 
@@ -133,9 +144,10 @@ int main(int argc, char** argv)
 			if (is_decreasing_first != is_decreasing)
 			{
 				// cout << format("report {} is not monotonic! {} {} {} {}", i, l, r, left, right) << '\n';
-				if (r - l == 1)
+				if (!has_skipped)
 				{
-					l--;
+					skip_i = l;
+					has_skipped = true;
 					continue;
 				}
 
@@ -148,69 +160,6 @@ int main(int argc, char** argv)
 		if (is_safe)
 		{
 			cout << "r1 - report #: " << i << ", is_safe: " << is_safe << '\n';
-			p2_safe_score++;
-			p2_safe_report.insert(i);
-		}
-	}
-
-
-	for (int i = 0; i < reports.size(); i++)
-	{
-		if (p2_safe_report.contains(i))
-		{
-			continue;
-		}
-		vector<int> report = reports[i];
-		bool is_safe = true;
-		bool is_decreasing_first = false;
-		bool has_skipped = false;
-		for (int l = 0, r = 1; r < report.size(); l++, r++)
-		{
-			int left = report[l];
-			int right = report[r];
-
-			int diff = abs(left - right);
-
-			if (diff < 1 || diff > 3)
-			{
-				cout << format("report {} is too different! {} {} {} {}", i, l, r, left, right) << '\n';
-				if (l == 0)
-				{
-					has_skipped = true;
-					continue;
-				}
-
-				// cout << format("report {} is too different! {} {} {} {}", i, l, r, left, right) << '\n';
-				is_safe = false;
-				break;
-			}
-
-			bool is_decreasing = left > right;
-
-			if (l == 0 || (has_skipped && l == 1))
-			{
-				is_decreasing_first = is_decreasing;
-				continue;
-			}
-
-			if (is_decreasing_first != is_decreasing)
-			{
-				cout << format("report {} is not monotonic! {} {} {} {}", i, l, r, left, right) << '\n';
-				if (l == 0)
-				{
-					has_skipped = true;
-					continue;
-				}
-
-				// cout << format("report {} is not monotonic! {} {} {} {}", i, l, r, left, right) << '\n';
-				is_safe = false;
-				break;
-			}
-		}
-
-		if (is_safe)
-		{
-			cout << "r2 - report #: " << i << ", is_safe: " << is_safe << '\n';
 			p2_safe_score++;
 			p2_safe_report.insert(i);
 		}

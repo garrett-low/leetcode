@@ -1,0 +1,5 @@
+-Wall
+-std=c++20
+-LC:/ProgramData/mingw64/mingw64/x86_64-w64-mingw32/lib
+-IC:/ProgramData/mingw64/mingw64/x86_64-w64-mingw32/include
+-lfmt
