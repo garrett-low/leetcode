@@ -1,0 +1,2 @@
+mul(1,2)don't()badstuffmul(30,10)
+stillbadmul(2,100)do()mul(2,4)
